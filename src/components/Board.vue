@@ -23,12 +23,25 @@ import Cell from "@/components/Cell.vue";
 
 export default {
   name: "board",
+  /*
   data() {
     return {
-      state: "playing",
-      columns: 5,
-      rows: 7
+      rows: this.$store.state.rows,
+      columns: this.$store.state.columns,
+      mines:  this.$store.state.mines,
     };
+  },
+  */
+  computed: {
+    rows() {
+      return this.$store.state.rows
+    },
+    columns() {
+      return this.$store.state.columns
+    },
+    mines() {
+      return this.$store.state.mines
+    },
   },
   components: {
     Cell
@@ -45,13 +58,19 @@ export default {
         document.getElementById("cell_" + key).click();
     }
   },
-
+/*
   beforeMount: function() {
-    fetch("http://localhost:3000/api/game/reset.json")
-      .then(response => response.json())
-      .then(data => {
+    fetch(
+      "http://localhost:3000/api/game/reset/" +
+        this.rows + "/" +
+        this.columns + "/" +
+        this.mines + ".json"
+    )
+    .then(response => response.json())
+    .then(data => {
         console.log(data);
-      });
+    });
   }
+*/
 };
 </script>

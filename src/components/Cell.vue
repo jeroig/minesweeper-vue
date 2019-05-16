@@ -4,6 +4,7 @@
       v-if="click & (value != -1)"
       class="myButton2"
       v-bind:style="{ color: activeColor }"
+      v-bind:restart="restart"
       disabled
     >
       {{ value }}
@@ -12,6 +13,7 @@
       v-else-if="click & (value == -1)"
       class="myButton"
       v-bind:style="{ color: activeColor }"
+      v-bind:restart="restart"
     >
       <i class="fas fa-bomb"></i>
     </button>
@@ -20,6 +22,7 @@
       v-on:contextmenu.prevent="newState('mark')"
       class="myButton"
       v-bind:style="{ color: activeColor }"
+      v-bind:restart="restart"
     >
       <i class="fas fa-question"></i>
     </button>
@@ -28,6 +31,7 @@
       v-on:contextmenu.prevent="newState('to_click')"
       class="myButton"
       v-bind:style="{ color: activeColor }"
+      v-bind:restart="restart"
     >
       <i class="fas fa-flag"></i>
     </button>
@@ -38,6 +42,7 @@
       v-bind:id="id"
       class="myButton"
       v-bind:style="{ color: activeColor }"
+      v-bind:restart="restart"
     >
       &ensp;
     </button>
@@ -47,7 +52,17 @@
 <script>
 export default {
   name: "Cell",
-  props: ["row", "col"],
+  //props: ["row", "col"],
+  props: {
+    row: {
+      type: Number,
+      required: true
+    },
+    col: {
+      type: Number,
+      required: true
+    }
+  },
   data: function() {
     return {
       value: 0,
@@ -57,6 +72,13 @@ export default {
     };
   },
   computed: {
+    restart: function() {
+      this.value = 0
+      this.question = false
+      this.mark = false
+      this.click = false
+      return this.$store.state.restart
+    },
     id: function() {
       return "cell_" + this.row + "_" + this.col;
     },
