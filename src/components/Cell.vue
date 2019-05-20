@@ -1,7 +1,7 @@
 <template>
   <div style="text-align: center;">
     <button
-      v-if="click & (value != -1)"
+      v-if="state == 'clicked' && (value != -1)"
       class="myButton2"
       v-bind:style="{ color: activeColor }"
       v-bind:restart="restart"
@@ -10,7 +10,7 @@
       {{ value }}
     </button>
     <button
-      v-else-if="click & (value == -1)"
+      v-else-if="state == 'clicked' & (value == -1)"
       class="myButton"
       v-bind:style="{ color: activeColor }"
       v-bind:restart="restart"
@@ -18,7 +18,7 @@
       <i class="fas fa-bomb"></i>
     </button>
     <button
-      v-else-if="question"
+      v-else-if="state == 'disputed'"
       v-on:contextmenu.prevent="newState('mark')"
       class="myButton"
       v-bind:style="{ color: activeColor }"
@@ -27,7 +27,7 @@
       <i class="fas fa-question"></i>
     </button>
     <button
-      v-else-if="mark"
+      v-else-if="state == 'marked'"
       v-on:contextmenu.prevent="newState('to_click')"
       class="myButton"
       v-bind:style="{ color: activeColor }"
@@ -65,28 +65,26 @@ export default {
       required: true
     }
   },
+
   data: function() {
     return {
       value: 0,
-      question: false,
-      mark: false,
-      click: false
+      state: 'unclicked'
     };
   },
+
   computed: {
     restart: function() {
       this.value = 0;
-      this.question = false;
-      this.mark = false;
-      this.click = false;
-      return this.$store.state.restart;
+      this.state = 'unclicked';
+      this.$store.state.restart;
     },
     id: function() {
       return "cell_" + this.row + "_" + this.col;
     },
     activeColor: function() {
-      if (this.question) return "darkcyan";
-      else if (this.mark) return "darkred";
+      if (this.state == 'disputed') return "darkcyan";
+      else if (this.state == 'marked') return "darkred";
       else
         switch (this.value) {
           case -1:
@@ -104,62 +102,43 @@ export default {
         }
     }
   },
+
   methods: {
-    gameStatus: function(state) {
-      if (state == "winner") {
-        this.$swal("YOU WIN THE GAME", "The game is over", "success");
-      } else if (state == "looser") {
-        this.$swal(
-          "Game Over",
-          "You find a mine so you loose the game",
-          "error"
-        );
-      } else {
-        //console.log('nothing to do!')
-      }
-    },
-    updateNeighbours: function(key, values) {
-      this.$emit("update-neighbours", key, values);
+
+    updateNeighbours: function(cell) {
+      this.$emit("update-neighbours", cell);
     },
     doClick: function() {
       var vm = this;
-      EventService.setState('click', this.row , this.col)
-        .then(response => {
-          //console.log(response.data);
-          var data = response.data;
-          vm.value = data.value.value;
-          vm.click = data.value.click;
-          vm.question = data.value.question;
-          vm.mark = data.value.mark;
-          var values = data.value;
-          if (
-            values.value == 0 &&
-            values.question == false &&
-            values.mark == false
-          ) {
-            // Hacemos click en todos los vecinos que no esten marcados o no sean bomba!
-            for (var key in data.neighbors) {
-              if (data.neighbors.hasOwnProperty(key)) {
-                vm.updateNeighbours(key, data.neighbors[key]);
-              }
-            }
-          }
-          vm.gameStatus(data.state);
-          return data;
-        });
+      EventService.setState("click", this.row, this.col).then(response => {
+        var data = response.data;
+        vm.value = data.cell.value;
+        vm.state = data.cell.state;
+        if (
+          data.cell.value == 0 &&
+          data.cell.state != 'questioned' &&
+          data.cell.state != 'marked'
+        ) {
+          // Hacemos click en todos los vecinos que no esten marcados o no sean bomba!
+          data.neighbors.map(cell => {
+            vm.updateNeighbours(cell);
+          });
+        }
+        //vm.gameStatus(data.state);
+        vm.$store.dispatch("asyncGameState", data.state );
+        return data;
+      });
     },
     newState: function(newState) {
       var vm = this;
-      EventService.setState(newState, this.row , this.col)
-        .then(response => {
-          //console.log(response.data)
-          vm.value = response.data.value.value;
-          vm.click = response.data.value.click;
-          vm.question = response.data.value.question;
-          vm.mark = response.data.value.mark;
-          this.gameStatus(response.data.state);
-          return response.data;
-        });
+      EventService.setState(newState, this.row, this.col).then(response => {
+        //console.log(response.data)
+        vm.value = response.data.cell.value;
+        vm.state = response.data.cell.state;
+        //this.gameStatus(response.data.state);
+        this.$store.dispatch("asyncGameState", response.data.state )
+        return response.data;
+      });
     }
   }
 };

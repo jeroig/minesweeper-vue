@@ -4,27 +4,39 @@ import EventService from "@/services/EventService.js";
 
 Vue.use(Vuex);
 
+
 export default new Vuex.Store({
   state: {
-    timer: 0,
-    rows: 4,
-    columns: 4,
-    mines: 1,
-    state: "playing",
-    restart: 0
+    restart: 0,
+    game: {
+      timer: 0,
+      state: "playing",
+      board: {
+        rows: 4,
+        columns: 4,
+        mines: 1,
+        cells: null
+      }
+    }
   },
   getters: {},
   mutations: {
     restartGame(state, data) {
-      state.rows = data.board.rows;
-      state.columns = data.board.columns;
-      state.mines = data.board.mines;
-      state.state = data.board.state;
-      state.timer = 0;
       state.restart++;
+      state.game = data.game;
     },
-    increment(state) {
-      state.timer++;
+
+    beginTimer(state) {
+        setInterval(function(){
+          if (state.game.state == 'playing'){
+            state.game.timer++;
+          }
+        }, 1000);
+      //state.game.timer++;
+    },
+
+    setGameOver(state, newState) {
+      state.game.state = newState;
     }
   },
   actions: {
@@ -35,13 +47,14 @@ export default new Vuex.Store({
           commit("restartGame", response.data);
         })
         .catch(error => {
-          console.log('There was an error:', error.response) // Logs out the error
+          console.log("There was an error:", error.response); // Logs out the error
         });
-      /*
-      setTimeout( () => {
-          Api().get.......
-      }, 500);
-      */
-    }
+    },
+
+    asyncGameState: ({ commit }, newValue) => {
+      if ((newValue == 'looser') || (newValue == 'winner')) {
+        commit("setGameOver", newValue);
+      }
+    },
   }
 });
