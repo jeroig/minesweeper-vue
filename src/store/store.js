@@ -1,46 +1,47 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import EventService from "@/services/EventService.js";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     timer: 0,
-    rows: 9,
-    columns: 9,
-    mines: 10,
-    state: 'playing',
+    rows: 4,
+    columns: 4,
+    mines: 1,
+    state: "playing",
     restart: 0
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
     restartGame(state, data) {
-      state.rows = data.board.rows
-      state.columns = data.board.columns
-      state.mines = data.board.mines
-      state.state = data.board.state
+      state.rows = data.board.rows;
+      state.columns = data.board.columns;
+      state.mines = data.board.mines;
+      state.state = data.board.state;
+      state.timer = 0;
       state.restart++;
     },
     increment(state) {
-      state.timer++
+      state.timer++;
     }
   },
   actions: {
-    asyncRestart: ({ commit }, newValues ) => {
+    asyncRestart: ({ commit }, newValues) => {
+      EventService.newGame(newValues.rows, newValues.columns, newValues.mines)
+        .then(response => {
+          console.log(response.data);
+          commit("restartGame", response.data);
+        })
+        .catch(error => {
+          console.log('There was an error:', error.response) // Logs out the error
+        });
+      /*
       setTimeout( () => {
-          fetch(
-            "http://localhost:3000/api/game/reset/" +
-              newValues.rows + "/" +
-              newValues.columns + "/" +
-              newValues.mines + ".json"
-          )
-          .then(response => response.json())
-          .then(data => {
-              console.log(data);
-              commit('restartGame', data)
-          });
+          Api().get.......
       }, 500);
+      */
     }
   }
 });

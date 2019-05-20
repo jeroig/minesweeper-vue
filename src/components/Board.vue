@@ -34,14 +34,14 @@ export default {
   */
   computed: {
     rows() {
-      return this.$store.state.rows
+      return this.$store.state.rows;
     },
     columns() {
-      return this.$store.state.columns
+      return this.$store.state.columns;
     },
     mines() {
-      return this.$store.state.mines
-    },
+      return this.$store.state.mines;
+    }
   },
   components: {
     Cell
@@ -54,23 +54,22 @@ export default {
         !values.mark &&
         !values.click &&
         document.getElementById("cell_" + key) != null
-      )
+      ) {
+        //this.$store.dispatch('asyncClickCell', {key: key})
+        //console.log("------------------------");
+        //console.log("CLICK CELDA: " + key);
         document.getElementById("cell_" + key).click();
+        //console.log("------------------------");
+      }
     }
   },
-/*
-  beforeMount: function() {
-    fetch(
-      "http://localhost:3000/api/game/reset/" +
-        this.rows + "/" +
-        this.columns + "/" +
-        this.mines + ".json"
-    )
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
+  beforeMount() {
+    // Init the game
+    this.$store.dispatch("asyncRestart", {
+      rows: this.rows,
+      columns: this.columns,
+      mines: this.mines
     });
   }
-*/
 };
 </script>

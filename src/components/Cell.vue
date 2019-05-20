@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import EventService from "@/services/EventService.js";
+
 export default {
   name: "Cell",
   //props: ["row", "col"],
@@ -73,11 +75,11 @@ export default {
   },
   computed: {
     restart: function() {
-      this.value = 0
-      this.question = false
-      this.mark = false
-      this.click = false
-      return this.$store.state.restart
+      this.value = 0;
+      this.question = false;
+      this.mark = false;
+      this.click = false;
+      return this.$store.state.restart;
     },
     id: function() {
       return "cell_" + this.row + "_" + this.col;
@@ -104,14 +106,16 @@ export default {
   },
   methods: {
     gameStatus: function(state) {
-      if (state == 'winner'){
-        this.$swal("YOU WIN THE GAME", "The game is over", "success")
-      }
-      else if (state == 'looser') {
-        this.$swal("Game Over", "You find a mine so you loose the game", "error")
-      }
-      else {
-        console.log('nothing to do!')
+      if (state == "winner") {
+        this.$swal("YOU WIN THE GAME", "The game is over", "success");
+      } else if (state == "looser") {
+        this.$swal(
+          "Game Over",
+          "You find a mine so you loose the game",
+          "error"
+        );
+      } else {
+        //console.log('nothing to do!')
       }
     },
     updateNeighbours: function(key, values) {
@@ -119,19 +123,10 @@ export default {
     },
     doClick: function() {
       var vm = this;
-      fetch(
-        "http://localhost:3000/api/game/click/row/" +
-          this.row +
-          "/col/" +
-          this.col +
-          ".json"
-      )
+      EventService.setState('click', this.row , this.col)
         .then(response => {
-          //console.log(response)
-          return response.json();
-        })
-        .then(data => {
-          console.log(data);
+          //console.log(response.data);
+          var data = response.data;
           vm.value = data.value.value;
           vm.click = data.value.click;
           vm.question = data.value.question;
@@ -145,40 +140,28 @@ export default {
             // Hacemos click en todos los vecinos que no esten marcados o no sean bomba!
             for (var key in data.neighbors) {
               if (data.neighbors.hasOwnProperty(key)) {
-                this.updateNeighbours(key, data.neighbors[key]);
+                vm.updateNeighbours(key, data.neighbors[key]);
               }
             }
           }
-          this.gameStatus(data.state)
+          vm.gameStatus(data.state);
           return data;
         });
     },
     newState: function(newState) {
       var vm = this;
-      fetch(
-        "http://localhost:3000/api/game/" +
-          newState +
-          "/row/" +
-          this.row +
-          "/col/" +
-          this.col +
-          ".json"
-      )
+      EventService.setState(newState, this.row , this.col)
         .then(response => {
-          //console.log(response)
-          return response.json();
-        })
-        .then(data => {
-          //console.log(data);
-          vm.value = data.value.value;
-          vm.click = data.value.click;
-          vm.question = data.value.question;
-          vm.mark = data.value.mark;
-          this.gameStatus(data.state);
-          return data;
+          //console.log(response.data)
+          vm.value = response.data.value.value;
+          vm.click = response.data.value.click;
+          vm.question = response.data.value.question;
+          vm.mark = response.data.value.mark;
+          this.gameStatus(response.data.state);
+          return response.data;
         });
     }
-  },
+  }
 };
 </script>
 
