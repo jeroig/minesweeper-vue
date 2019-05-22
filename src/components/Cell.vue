@@ -1,16 +1,16 @@
 <template>
   <div style="text-align: center;">
     <button
-      v-if="state == 'clicked' && (value != -1)"
+      v-if="this.cell.state == 'clicked' && this.cell.value != -1"
       class="myButton2"
       v-bind:style="{ color: activeColor }"
       v-bind:restart="restart"
       disabled
     >
-      {{ value }}
+      {{ this.cell.value }}
     </button>
     <button
-      v-else-if="state == 'clicked' & (value == -1)"
+      v-else-if="(this.cell.state == 'clicked') & (this.cell.value == -1)"
       class="myButton"
       v-bind:style="{ color: activeColor }"
       v-bind:restart="restart"
@@ -18,7 +18,7 @@
       <i class="fas fa-bomb"></i>
     </button>
     <button
-      v-else-if="state == 'disputed'"
+      v-else-if="this.cell.state == 'disputed'"
       v-on:contextmenu.prevent="newState('mark')"
       class="myButton"
       v-bind:style="{ color: activeColor }"
@@ -27,7 +27,7 @@
       <i class="fas fa-question"></i>
     </button>
     <button
-      v-else-if="state == 'marked'"
+      v-else-if="this.cell.state == 'marked'"
       v-on:contextmenu.prevent="newState('to_click')"
       class="myButton"
       v-bind:style="{ color: activeColor }"
@@ -50,8 +50,6 @@
 </template>
 
 <script>
-import EventService from "@/services/EventService.js";
-
 export default {
   name: "Cell",
   //props: ["row", "col"],
@@ -66,27 +64,33 @@ export default {
     }
   },
 
+  /*
   data: function() {
     return {
       value: 0,
-      state: 'unclicked'
+      state: "unclicked"
     };
   },
+  */
 
   computed: {
+    cell() {
+      return this.$store.getters.getCell(this.row, this.col);
+    },
+
     restart: function() {
-      this.value = 0;
-      this.state = 'unclicked';
-      this.$store.state.restart;
+      return this.$store.state.restart;
     },
+
     id: function() {
-      return "cell_" + this.row + "_" + this.col;
+      return this.row + "_" + this.col;
     },
+
     activeColor: function() {
-      if (this.state == 'disputed') return "darkcyan";
-      else if (this.state == 'marked') return "darkred";
+      if (this.cell.state == "disputed") return "darkcyan";
+      else if (this.cell.state == "marked") return "darkred";
       else
-        switch (this.value) {
+        switch (this.cell.value) {
           case -1:
             return "black";
           case 1:
@@ -104,40 +108,17 @@ export default {
   },
 
   methods: {
-
-    updateNeighbours: function(cell) {
-      this.$emit("update-neighbours", cell);
+    updateNeighbor: function(tmp_cell) {
+      this.$emit("update-neighbor", tmp_cell);
     },
     doClick: function() {
-      var vm = this;
-      EventService.setState("click", this.row, this.col).then(response => {
-        var data = response.data;
-        vm.value = data.cell.value;
-        vm.state = data.cell.state;
-        if (
-          data.cell.value == 0 &&
-          data.cell.state != 'questioned' &&
-          data.cell.state != 'marked'
-        ) {
-          // Hacemos click en todos los vecinos que no esten marcados o no sean bomba!
-          data.neighbors.map(cell => {
-            vm.updateNeighbours(cell);
-          });
-        }
-        //vm.gameStatus(data.state);
-        vm.$store.dispatch("asyncGameState", data.state );
-        return data;
-      });
+      this.$store.dispatch("asyncClickCell", this);
     },
     newState: function(newState) {
-      var vm = this;
-      EventService.setState(newState, this.row, this.col).then(response => {
-        //console.log(response.data)
-        vm.value = response.data.cell.value;
-        vm.state = response.data.cell.state;
-        //this.gameStatus(response.data.state);
-        this.$store.dispatch("asyncGameState", response.data.state )
-        return response.data;
+      this.$store.dispatch("asyncSetCellState", {
+        row: this.cell.row,
+        col: this.cell.col,
+        newState: newState
       });
     }
   }

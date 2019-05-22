@@ -4,7 +4,6 @@ import EventService from "@/services/EventService.js";
 
 Vue.use(Vuex);
 
-
 export default new Vuex.Store({
   state: {
     restart: 0,
@@ -19,7 +18,6 @@ export default new Vuex.Store({
       }
     }
   },
-  getters: {},
   mutations: {
     restartGame(state, data) {
       state.restart++;
@@ -27,34 +25,102 @@ export default new Vuex.Store({
     },
 
     beginTimer(state) {
-        setInterval(function(){
-          if (state.game.state == 'playing'){
-            state.game.timer++;
-          }
-        }, 1000);
+      setInterval(function() {
+        if (state.game.state == "playing") {
+          state.game.timer++;
+        }
+      }, 1000);
       //state.game.timer++;
     },
 
     setGameOver(state, newState) {
       state.game.state = newState;
+    },
+
+    setCellState(state, data) {
+      state.game.board.cells[data.row][data.col].state = data.newState;
+      //console.log('---------------------------');
+      //console.log(data.row + '_' + data.col + ': ' + data.value);
+      state.game.board.cells[data.row][data.col].value = data.value;
     }
   },
   actions: {
     asyncRestart: ({ commit }, newValues) => {
       EventService.newGame(newValues.rows, newValues.columns, newValues.mines)
         .then(response => {
-          console.log(response.data);
+          //console.log(response.data);
           commit("restartGame", response.data);
         })
         .catch(error => {
           console.log("There was an error:", error.response); // Logs out the error
         });
     },
-
     asyncGameState: ({ commit }, newValue) => {
-      if ((newValue == 'looser') || (newValue == 'winner')) {
+      if (newValue == "looser" || newValue == "winner") {
         commit("setGameOver", newValue);
       }
     },
+    asyncSetCellState: ({ commit }, values) => {
+      EventService.setState(values.newState, values.row, values.col)
+        .then(response => {
+          //console.log(response.data.cell)
+          commit("setCellState", {
+            row: response.data.cell.row,
+            col: response.data.cell.col,
+            newState: response.data.cell.state,
+            value: response.data.cell.value
+          });
+          if (
+            response.data.state == "looser" ||
+            response.data.state == "winner"
+          ) {
+            commit("setGameOver", response.data.state);
+          }
+        })
+        .catch(error => {
+          console.log("There was an error asyncSetCellState:", error.response);
+        });
+    },
+    asyncClickCell: ({ commit }, cell) => {
+      EventService.setState("click", cell.row, cell.col)
+        .then(response => {
+          //console.log(response.data)
+          if (response.data.was_clicked == false) {
+            commit("setCellState", {
+              row: response.data.cell.row,
+              col: response.data.cell.col,
+              newState: response.data.cell.state,
+              value: response.data.cell.value
+            });
+            if (
+              response.data.state == "looser" ||
+              response.data.state == "winner"
+            ) {
+              commit("setGameOver", response.data.state);
+            }
+            // Hacemos click en todos los vecinos con value 0
+            if (response.data.cell.value === 0) {
+              response.data.neighbors.map(neighbor_cell => {
+                cell.updateNeighbor(neighbor_cell);
+              });
+            }
+          } else {
+            //console.log('Ya fue clickeado: ' + cell.row + '_' + cell.col)
+          }
+        })
+        .catch(error => {
+          console.log("There was an error asyncClickCell:", error.response);
+        });
+    }
+  },
+
+  getters: {
+    gameTime: state => {
+      return state.game.timer;
+    },
+    getCell: state => (row, col) => {
+      if (state.game.board.cells === null) return "";
+      return state.game.board.cells[row][col];
+    }
   }
 });
