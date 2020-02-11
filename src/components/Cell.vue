@@ -14,6 +14,7 @@
       class="myButton"
       v-bind:style="{ color: activeColor }"
       v-bind:restart="restart"
+      disabled
     >
       <i class="fas fa-bomb"></i>
     </button>
@@ -23,6 +24,7 @@
       class="myButton"
       v-bind:style="{ color: activeColor }"
       v-bind:restart="restart"
+      v-bind:disabled="disabled"
     >
       <i class="fas fa-question"></i>
     </button>
@@ -32,6 +34,7 @@
       class="myButton"
       v-bind:style="{ color: activeColor }"
       v-bind:restart="restart"
+      v-bind:disabled="disabled"
     >
       <i class="fas fa-flag"></i>
     </button>
@@ -43,6 +46,7 @@
       class="myButton"
       v-bind:style="{ color: activeColor }"
       v-bind:restart="restart"
+      v-bind:disabled="disabled"
     >
       &ensp;
     </button>
@@ -84,6 +88,14 @@ export default {
 
     id: function() {
       return this.row + "_" + this.col;
+    },
+
+    disabled() {
+      if (this.$store.state.game.state == "playing") {
+        return false;
+      } else {
+        return true;
+      }
     },
 
     activeColor: function() {
