@@ -67,7 +67,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit("beginTimer");
+    //this.$store.commit("beginTimer");
   }
 };
 </script>

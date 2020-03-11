@@ -14,13 +14,17 @@ export default new Router({
       component: Home
     },
     {
+      path: "/login",
+      name: "login",
+      component: () => import("./views/Login.vue")
+    },
+    {
       path: "/minesweeper",
       name: "minesweeper",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Minesweeper.vue")
+      component: () => import("./views/Minesweeper.vue")
     }
   ]
 });

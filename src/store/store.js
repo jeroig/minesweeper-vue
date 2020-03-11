@@ -10,6 +10,7 @@ export default new Vuex.Store({
     game: {
       timer: 0,
       state: "playing",
+      interval_id: 0,
       board: {
         rows: 4,
         columns: 4,
@@ -20,19 +21,28 @@ export default new Vuex.Store({
   },
   mutations: {
     restartGame(state, data) {
+      clearInterval(state.game.interval_id);
       state.restart++;
       state.game = data.game;
-    },
-
-    beginTimer(state) {
-      setInterval(function() {
+      state.game.interval_id = setInterval(function() {
         if (state.game.state == "playing") {
           state.game.timer++;
         }
       }, 1000);
-      //state.game.timer++;
+      //state.game.interval_id = t;
     },
 
+    /*
+    beginTimer(state) {
+      var t = setInterval(function() {
+        if (state.game.state == "playing") {
+          state.game.timer++;
+        }
+      }, 1000);
+      console.log(t);
+      state.game.interval_id = t;
+    },
+*/
     setGameOver(state, newState) {
       state.game.state = newState;
     },
