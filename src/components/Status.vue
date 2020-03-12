@@ -1,12 +1,55 @@
 <template>
-  <div>
-    TODO - General data from the game like Time, Mines, etc..<br />
-    Rows: <input type="number" v-model="rows" /> <br />
-    Columns: <input type="number" v-model="columns" /> <br />
-    Mines: <input type="number" v-model="mines" /> <br />
-    <button @click="restart">Restart</button>
-    Timer: {{ gameTime }} segs. <br />
-    Estado: <b> {{ state }} </b> <br />
+  <v-container>
+    <v-row>
+      <v-col>
+        <v-alert text dense color="teal" icon="mdi-play-circle" border="left">
+          {{ state }}
+        </v-alert>
+      </v-col>
+      <v-col>
+        <v-alert text dense color="teal" icon="mdi-clock-fast" border="left">
+          {{ gameTime }} segs.
+        </v-alert>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col>
+        <v-text-field type="number" v-model="rows" label="Rows"></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          type="number"
+          v-model="columns"
+          label="Columns"
+        ></v-text-field>
+      </v-col>
+      <v-col>
+        <v-text-field
+          type="number"
+          v-model="mines"
+          label="Mines"
+        ></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-spacer></v-spacer>
+      <v-col>
+        <v-btn
+          dark
+          color="light-green darken-1"
+          elevation="8"
+          padless
+          rounded
+          class="my-2"
+          @click="restart"
+        >
+          Restart
+        </v-btn>
+      </v-col>
+      <v-spacer></v-spacer>
+    </v-row>
     <!--
     Celdat:
     <b>
@@ -16,7 +59,7 @@
       {{ infoCell(3,0) }} | {{ infoCell(3,1) }}  | {{ infoCell(3,2) }} | {{ infoCell(3,3) }} <br />
     </b>
     -->
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -67,7 +110,7 @@ export default {
     }
   },
   created() {
-    //this.$store.commit("beginTimer");
+    //
   }
 };
 </script>

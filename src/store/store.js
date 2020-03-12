@@ -32,17 +32,6 @@ export default new Vuex.Store({
       //state.game.interval_id = t;
     },
 
-    /*
-    beginTimer(state) {
-      var t = setInterval(function() {
-        if (state.game.state == "playing") {
-          state.game.timer++;
-        }
-      }, 1000);
-      console.log(t);
-      state.game.interval_id = t;
-    },
-*/
     setGameOver(state, newState) {
       state.game.state = newState;
     },
