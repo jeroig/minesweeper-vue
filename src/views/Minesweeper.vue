@@ -15,9 +15,7 @@
         <Board />
       </v-col>
       <v-col>
-        "Lista de juegos previos"<br />
-        "Botones de reinicio"<br />
-        "etc..."<br />
+        <History />
       </v-col>
     </v-row>
   </v-container>
@@ -27,12 +25,14 @@
 // @ is an alias to /src
 import Board from "@/components/Board.vue";
 import Status from "@/components/Status.vue";
+import History from "@/components/History.vue";
 
 export default {
   name: "minesweeper",
   components: {
     Board,
-    Status
+    Status,
+    History
   }
 };
 </script>

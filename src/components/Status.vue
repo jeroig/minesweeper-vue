@@ -2,8 +2,14 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-alert text dense color="teal" icon="mdi-play-circle" border="left">
-          {{ state }}
+        <v-alert
+          text
+          dense
+          :color="getInfo.color"
+          :icon="getInfo.icon"
+          border="left"
+        >
+          {{ getInfo.state }}
         </v-alert>
       </v-col>
       <v-col>
@@ -71,27 +77,41 @@ export default {
       mines: this.$store.state.game.board.mines
     };
   },
+  watch: {},
   computed: {
-    state: function() {
+    gameTime() {
+      return this.$store.getters.gameTime;
+    },
+    getInfo() {
       if (this.$store.state.game.state == "winner") {
         this.$swal(
           "YOU WIN THE GAME in " + this.gameTime + " seg.",
           "The game is over",
           "success"
         );
+        return {
+          color: "success",
+          icon: "mdi-check-circle",
+          state: this.$store.state.game.state
+        };
       } else if (this.$store.state.game.state == "looser") {
         this.$swal(
           "Game Over",
           "You find a mine so you loose the game",
           "error"
         );
+        return {
+          color: "error",
+          icon: "mdi-stop-circle",
+          state: this.$store.state.game.state
+        };
       } else {
-        //console.log('nothing to do!')
+        return {
+          color: "teal",
+          icon: "mdi-play-circle",
+          state: this.$store.state.game.state
+        };
       }
-      return this.$store.state.game.state;
-    },
-    gameTime() {
-      return this.$store.getters.gameTime;
     }
   },
   methods: {
