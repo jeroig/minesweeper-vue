@@ -102,7 +102,7 @@ export default {
         );
         return {
           color: "error",
-          icon: "mdi-stop-circle",
+          icon: "mdi-close-circle",
           state: this.$store.state.game.state
         };
       } else {

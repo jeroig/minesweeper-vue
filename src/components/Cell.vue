@@ -27,6 +27,11 @@
       v-bind:disabled="disabled"
     >
       <i class="fas fa-question"></i>
+      <!--
+      <v-icon color="success">
+        mdi-help-outline
+      </v-icon>
+      -->
     </button>
     <button
       v-else-if="this.cell.state == 'marked'"
