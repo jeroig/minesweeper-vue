@@ -7,16 +7,21 @@
             <v-icon v-if="game.status == 'winner'" large left color="success">
               mdi-check-circle
             </v-icon>
-            <v-icon v-else-if="game.status == 'looser'" large left color="error">
+            <v-icon
+              v-else-if="game.status == 'looser'"
+              large
+              left
+              color="error"
+            >
               mdi-close-circle
             </v-icon>
             <v-icon v-else large left color="teal">
               mdi-play-circle
             </v-icon>
-            <span class="title font-weight-light">  {{game.date}} </span>
+            <span class="title font-weight-light"> {{ game.date }} </span>
           </v-card-title>
           <v-card-subtitle>
-             {{game.status}} - {{game.duration}}
+            {{ game.status }} - {{ game.duration }}
           </v-card-subtitle>
           <v-card-text> </v-card-text>
         </v-card>
