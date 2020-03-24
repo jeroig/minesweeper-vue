@@ -21,13 +21,21 @@
 
     <v-row>
       <v-col>
-        <v-text-field type="number" v-model="rows" label="Rows"></v-text-field>
+        <v-text-field
+          type="number"
+          v-model="rows"
+          label="Rows"
+          min="1"
+          max="10"
+        ></v-text-field>
       </v-col>
       <v-col>
         <v-text-field
           type="number"
           v-model="columns"
           label="Columns"
+          min="1"
+          max="10"
         ></v-text-field>
       </v-col>
       <v-col>
@@ -35,6 +43,8 @@
           type="number"
           v-model="mines"
           label="Mines"
+          min="1"
+          max="99"
         ></v-text-field>
       </v-col>
     </v-row>
