@@ -107,7 +107,7 @@ export default {
       } else if (this.$store.state.game.state == "looser") {
         this.$swal(
           "Game Over",
-          "You find a mine so you loose the game",
+          "You click a mine so you loose the game",
           "error"
         );
         return {
