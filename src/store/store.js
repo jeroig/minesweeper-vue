@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    user: null,
     restart: 0,
     game: {
       timer: 0,
@@ -20,6 +21,13 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    setUserData(state, userData) {
+      state.user = userData;
+      localStorage.setItem("user", JSON.stringify(userData));
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${userData.token}`;
+    },
     restartGame(state, data) {
       clearInterval(state.game.interval_id);
       state.restart++;
@@ -109,6 +117,32 @@ export default new Vuex.Store({
         })
         .catch(error => {
           console.log("There was an error asyncClickCell:", error.response);
+        });
+    },
+    register: ({ commit }, credentials) => {
+      EventService.newUser(credentials)
+        .then(response => {
+          console.log(response.data);
+          commit("setUserData", response.data);
+        })
+        .catch(error => {
+          console.log("There was an error:", error.response); // Logs out the error
+        });
+    },
+    login: ({ commit }, credentials) => {
+      EventService.login(credentials)
+        .then(response => {
+          console.log(response.data);
+          commit("setUserData", response.data);
+        })
+        .catch(error => {
+          //console.log("There was an error: ", error.response); // Logs out the error
+          Vue.$swal(
+            //"Oops! " + error.response.data.errors,
+            "Oops! " + error,
+            "Please enter correct email & password",
+            "error"
+          );
         });
     }
   },

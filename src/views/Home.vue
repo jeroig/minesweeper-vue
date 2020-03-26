@@ -1,14 +1,14 @@
 <template>
-  <Minesweeper />
+  <Login />
 </template>
 
 <script>
-import Minesweeper from "@/views/Minesweeper.vue";
+import Login from "@/views/Login.vue";
 
 export default {
   name: "Home",
   components: {
-    Minesweeper
+    Login
   }
 };
 </script>

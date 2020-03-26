@@ -10,8 +10,11 @@
           <v-card-text>
             <v-form>
               <v-text-field
-                label="Username"
+                label="E-mail"
                 prepend-icon="mdi-account-circle"
+                v-model="email"
+                type="email"
+                name="email"
               />
               <v-text-field
                 :type="showPassword ? 'text' : 'password'"
@@ -19,14 +22,16 @@
                 prepend-icon="mdi-lock"
                 :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                 @click:append="showPassword = !showPassword"
+                v-model="password"
+                name="password"
               />
             </v-form>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
-            <v-btn color="success">Register</v-btn>
+            <v-btn color="success" v-on:click="register">Register</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="info">Login</v-btn>
+            <v-btn color="info" v-on:click="login">Login</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -39,8 +44,33 @@ export default {
   name: "Login",
   data() {
     return {
-      showPassword: false
+      showPassword: false,
+      email: "",
+      password: ""
     };
+  },
+  methods: {
+    register: function() {
+      console.log(
+        "Send to register credentials: " + this.email + " - " + this.password
+      );
+      /*
+      this.$store
+        .dispatch('register', {
+          email: this.email,
+          password: this.password
+        })
+      */
+    },
+    login: function() {
+      console.log(
+        "Send to login credentials: " + this.email + " - " + this.password
+      );
+      this.$store.dispatch("login", {
+        email: this.email,
+        password: this.password
+      });
+    }
   }
 };
 </script>

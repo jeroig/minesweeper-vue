@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="green" dark>
-      <v-toolbar-title>Minesweeper Game</v-toolbar-title>
+      <v-toolbar-title>Minesweeper</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
         v-for="link in links"
@@ -49,12 +49,12 @@ export default {
     return {
       links: [
         {
-          label: "Home",
+          label: "Login",
           url: "/"
         },
         {
-          label: "Login",
-          url: "/login"
+          label: "Game",
+          url: "/minesweeper"
         }
       ]
     };
