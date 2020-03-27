@@ -51,24 +51,17 @@ export default {
   },
   methods: {
     register: function() {
-      console.log(
-        "Send to register credentials: " + this.email + " - " + this.password
-      );
-      /*
-      this.$store
-        .dispatch('register', {
-          email: this.email,
-          password: this.password
-        })
-      */
+      this.$store.dispatch("register", {
+        email: this.email,
+        password: this.password,
+        router: this.$router
+      });
     },
     login: function() {
-      console.log(
-        "Send to login credentials: " + this.email + " - " + this.password
-      );
       this.$store.dispatch("login", {
         email: this.email,
-        password: this.password
+        password: this.password,
+        router: this.$router
       });
     }
   }

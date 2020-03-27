@@ -1,8 +1,4 @@
 import axios from "axios";
-//import Base64 from "crypto-js/enc-base64";
-//import SHA3 from "crypto-js/sha3";
-//import SHA256 from "crypto-js/sha256";
-
 import sha256 from "crypto-js/sha256";
 import hmacSHA512 from "crypto-js/hmac-sha512";
 import Base64 from "crypto-js/enc-base64";
@@ -30,11 +26,15 @@ export default {
     return apiClient.get("/game/" + state + "/row/" + row + "/col/" + col);
   },
   newUser(credentials) {
+    credentials.password = str_encrypt(credentials.password, "register");
     return apiClient.post("/user/register", credentials);
   },
   login(credentials) {
     //console.log(str_encrypt(credentials.password,'login'));
     credentials.password = str_encrypt(credentials.password, "login");
     return apiClient.post("/user/login", credentials);
+  },
+  setHeaderCommon(token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
 };

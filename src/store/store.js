@@ -24,9 +24,7 @@ export default new Vuex.Store({
     setUserData(state, userData) {
       state.user = userData;
       localStorage.setItem("user", JSON.stringify(userData));
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${userData.token}`;
+      EventService.setHeaderCommon(userData.token);
     },
     restartGame(state, data) {
       clearInterval(state.game.interval_id);
@@ -120,26 +118,38 @@ export default new Vuex.Store({
         });
     },
     register: ({ commit }, credentials) => {
+      let router = credentials["router"];
+      delete credentials["router"];
       EventService.newUser(credentials)
         .then(response => {
-          console.log(response.data);
+          //console.log(response.data);
           commit("setUserData", response.data);
+          router.push({ name: "minesweeper" });
         })
         .catch(error => {
-          console.log("There was an error:", error.response); // Logs out the error
+          //console.log("There was an error:", error.response); //
+          Vue.$swal(
+            "Oops! " + error,
+            //"Oops! " + error.response.data.errors,
+            "Please enter correct email & password",
+            "error"
+          );
         });
     },
     login: ({ commit }, credentials) => {
+      let router = credentials["router"];
+      delete credentials["router"];
       EventService.login(credentials)
         .then(response => {
-          console.log(response.data);
+          //console.log(response.data);
           commit("setUserData", response.data);
+          router.push({ name: "minesweeper" });
         })
         .catch(error => {
-          //console.log("There was an error: ", error.response); // Logs out the error
-          Vue.$swal(
-            //"Oops! " + error.response.data.errors,
+          //console.log("There was an error: ", error); // Logs out the error
+          return Vue.$swal(
             "Oops! " + error,
+            //"Oops! " + error.response.data.errors,
             "Please enter correct email & password",
             "error"
           );
