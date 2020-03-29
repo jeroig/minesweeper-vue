@@ -164,6 +164,9 @@ export default new Vuex.Store({
     getCell: state => (row, col) => {
       if (state.game.board.cells === null) return "";
       return state.game.board.cells[row][col];
+    },
+    loggedId(state) {
+      return !!state.user;
     }
   }
 });

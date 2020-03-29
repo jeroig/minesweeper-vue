@@ -23,19 +23,17 @@
 // @ is an alias to /src
 import Cell from "@/components/Cell.vue";
 import { mapState } from "vuex";
+//import { stateBoard } from "@/vuex/helpers.js";
 
 export default {
   name: "board",
-
-  //  computed: mapState({
-  //    board: state => state.game.board
-  //  }),
 
   computed: {
     componentsList() {
       return this.$refs.cells.length;
     },
     ...mapState({ board: state => state.game.board })
+    //...stateBoard
   },
 
   components: {

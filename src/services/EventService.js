@@ -35,6 +35,6 @@ export default {
     return apiClient.post("/user/login", credentials);
   },
   setHeaderCommon(token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
 };

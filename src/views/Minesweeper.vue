@@ -1,11 +1,4 @@
 <template>
-  <!--
-  <div class="">
-    <h1>Minesweeper ON-LINE!</h1>
-    <Status />
-    <Board />
-  </div>
--->
   <v-container>
     <v-row>
       <v-col>

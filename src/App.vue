@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { authComputed } from "@/vuex/helpers.js";
+
 export default {
   name: "App",
   data() {
@@ -58,6 +60,9 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    ...authComputed
   }
 };
 </script>
