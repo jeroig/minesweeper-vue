@@ -26,6 +26,12 @@ export default new Vuex.Store({
       localStorage.setItem("user", JSON.stringify(userData));
       EventService.setHeaderCommon(userData.token);
     },
+    clearUserData(state) {
+      //state.user = null;
+      localStorage.removeItem("user");
+      //EventService.setHeaderCommon(null);
+      location.reload();
+    },
     restartGame(state, data) {
       clearInterval(state.game.interval_id);
       state.restart++;
@@ -154,9 +160,12 @@ export default new Vuex.Store({
             "error"
           );
         });
+    },
+    logout: ({ commit }) => {
+      //console.log('commit muttation clear user')
+      commit("clearUserData");
     }
   },
-
   getters: {
     gameTime: state => {
       return state.game.timer;
@@ -165,7 +174,7 @@ export default new Vuex.Store({
       if (state.game.board.cells === null) return "";
       return state.game.board.cells[row][col];
     },
-    loggedId(state) {
+    loggedId: state => {
       return !!state.user;
     }
   }

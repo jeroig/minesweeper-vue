@@ -35,6 +35,8 @@ export default {
     return apiClient.post("/user/login", credentials);
   },
   setHeaderCommon(token) {
-    apiClient.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    apiClient.defaults.headers.common["Authorization"] = token
+      ? `Bearer ${token}`
+      : null;
   }
 };

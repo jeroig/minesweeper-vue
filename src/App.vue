@@ -4,7 +4,7 @@
       <v-toolbar-title>Minesweeper</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
-        v-for="link in links"
+        v-for="link in availableLinks"
         :key="`${link.label}-header-link`"
         color="white"
         text
@@ -21,7 +21,7 @@
     <v-footer color="green" padless>
       <v-layout justify-center wrap>
         <v-btn
-          v-for="link in links"
+          v-for="link in availableLinks"
           :key="`${link.label}-footer-link`"
           color="white"
           text
@@ -43,7 +43,8 @@
 </template>
 
 <script>
-import { authComputed } from "@/vuex/helpers.js";
+import store from "@/vuex/store";
+//import { authComputed } from "@/vuex/helpers.js";
 
 export default {
   name: "App",
@@ -55,6 +56,10 @@ export default {
           url: "/"
         },
         {
+          label: "Logout",
+          url: "/logout"
+        },
+        {
           label: "Game",
           url: "/minesweeper"
         }
@@ -62,7 +67,14 @@ export default {
     };
   },
   computed: {
-    ...authComputed
-  }
+    availableLinks() {
+      return this.links.filter(link =>
+        store.getters.loggedId
+          ? link.label != "Login"
+          : link.label != "Logout" && link.label != "Game"
+      );
+    }
+  },
+  methods: {}
 };
 </script>
