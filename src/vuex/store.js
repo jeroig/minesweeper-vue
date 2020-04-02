@@ -135,8 +135,7 @@ export default new Vuex.Store({
         .catch(error => {
           //console.log("There was an error:", error.response); //
           Vue.$swal(
-            "Oops! " + error,
-            //"Oops! " + error.response.data.errors,
+            "Oops! " + error.response.data.error,
             "Please enter correct email & password",
             "error"
           );
@@ -147,22 +146,19 @@ export default new Vuex.Store({
       delete credentials["router"];
       EventService.login(credentials)
         .then(response => {
-          //console.log(response.data);
           commit("setUserData", response.data);
           router.push({ name: "minesweeper" });
         })
         .catch(error => {
-          //console.log("There was an error: ", error); // Logs out the error
-          return Vue.$swal(
-            "Oops! " + error,
-            //"Oops! " + error.response.data.errors,
+          Vue.$swal(
+            //"Oops! " + error,
+            "Oops! " + error.response.data.error,
             "Please enter correct email & password",
             "error"
           );
         });
     },
     logout: ({ commit }) => {
-      //console.log('commit muttation clear user')
       commit("clearUserData");
     }
   },
