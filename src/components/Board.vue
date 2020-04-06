@@ -23,15 +23,14 @@
 // @ is an alias to /src
 import Cell from "@/components/Cell.vue";
 import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "board",
 
   computed: {
-    componentsList() {
-      return this.$refs.cells.length;
-    },
-    ...mapState({ board: state => state.game.board })
+    ...mapState({ board: state => state.game.board }),
+    ...mapGetters(["getCell"])
   },
 
   components: {
@@ -44,23 +43,12 @@ export default {
     },
 
     getCellComponent(row, col) {
-      var tmp_id = row + "_" + col;
-      // Return Cell as component
-      return this.$refs.cells.find(cell => cell.id === tmp_id);
+      return this.$refs.cells.find(cell => cell.id === this.getId(row, col));
     },
 
     clickAdjacentCell: function(cell) {
-      var cell_component = this.getCellComponent(cell.row, cell.col);
-      this.$store.dispatch("asyncClickCell", cell_component);
-      /*
-      if (cell_component === undefined){
-        console.log("No pudo obtener el componente " + cell.row + "_" + cell.col)
-      }
-      else{
-        //var cell_store     = cell_component.cell
-        this.$store.dispatch('asyncClickCell', cell_component)
-      }
-      */
+      let cell_component = this.getCellComponent(cell.row, cell.col);
+      cell_component.doClick();
     }
   },
   created() {

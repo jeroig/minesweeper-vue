@@ -62,7 +62,7 @@ export default {
 
   computed: {
     cellNumber() {
-     return (this.cell.value == 0) ? "" : this.cell.value;  
+      return this.cell.value == 0 ? "" : this.cell.value;
     },
 
     cell() {
