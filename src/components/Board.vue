@@ -1,22 +1,20 @@
 <template>
-  <div style="text-align: -webkit-center;">
-    <table border="0" id="board">
-      <tbody>
-        <tr v-for="(row, i) in board.rows" :key="i">
-          <td v-for="(col, j) in board.columns" :key="j">
-            <cell
-              :key="getId(i, j)"
-              ref="cells"
-              v-bind:row="i"
-              v-bind:col="j"
-              @update-neighbor="clickAdjacentCell"
-            >
-            </cell>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table id="board">
+    <tbody>
+      <tr v-for="(row, i) in board.rows" :key="i">
+        <td v-for="(col, j) in board.columns" :key="j">
+          <cell
+            :key="getId(i, j)"
+            ref="cells"
+            v-bind:row="i"
+            v-bind:col="j"
+            @update-neighbor="clickAdjacentCell"
+          >
+          </cell>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -29,8 +27,7 @@ export default {
   name: "board",
 
   computed: {
-    ...mapState({ board: state => state.game.board }),
-    ...mapGetters(["getCell"])
+    ...mapState({ board: state => state.game.board })
   },
 
   components: {

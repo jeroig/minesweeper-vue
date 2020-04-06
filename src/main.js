@@ -19,7 +19,7 @@ new Vue({
     if (userString) {
       // check to see if there is indeed a user
       const userData = JSON.parse(userString); // parse user data into JSON
-      this.$store.commit("setUserData", userData); // restore user data with Vuex
+      this.$store.commit("SET_USER_DATA", userData); // restore user data with Vuex
     }
 
     apiClient.interceptors.response.use(

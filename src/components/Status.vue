@@ -127,8 +127,8 @@ export default {
   methods: {
     infoCell: function(row, col) {
       return {
-        value: this.$store.getters.getCell(row, col).value,
-        state: this.$store.getters.getCell(row, col).state
+        value: this.$store.getters.cell(row, col).value,
+        state: this.$store.getters.cell(row, col).state
       };
     },
     restart() {

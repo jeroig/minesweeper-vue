@@ -48,7 +48,6 @@
 <script>
 export default {
   name: "Cell",
-  //props: ["row", "col"],
   props: {
     row: {
       type: Number,
@@ -66,14 +65,14 @@ export default {
     },
 
     cell() {
-      return this.$store.getters.getCell(this.row, this.col);
+      return this.$store.getters.cell(this.row, this.col);
     },
 
-    restart: function() {
+    restart() {
       return this.$store.state.restart;
     },
 
-    id: function() {
+    id() {
       return this.row + "_" + this.col;
     },
 
