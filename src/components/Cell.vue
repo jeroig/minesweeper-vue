@@ -5,7 +5,7 @@
     disabled
     rounded
   >
-    <span v-bind:style="{ color: activeColor }">{{ this.cell.value }}</span>
+    <span v-bind:style="{ color: activeColor }">{{ cellNumber }}</span>
   </v-btn>
   <v-btn
     v-else-if="(this.cell.state == 'clicked') & (this.cell.value == -1)"
@@ -61,6 +61,10 @@ export default {
   },
 
   computed: {
+    cellNumber() {
+     return (this.cell.value == 0) ? "" : this.cell.value;  
+    },
+
     cell() {
       return this.$store.getters.getCell(this.row, this.col);
     },
