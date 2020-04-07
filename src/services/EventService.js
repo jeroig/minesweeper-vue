@@ -26,12 +26,12 @@ export default {
     return apiClient.get("/game/" + state + "/row/" + row + "/col/" + col);
   },
   newUser(credentials) {
-    credentials.password = str_encrypt(credentials.password, "register");
+    credentials.password = str_encrypt(credentials.password, "userCredentials");
     return apiClient.post("/user/register", credentials);
   },
   login(credentials) {
     //console.log(str_encrypt(credentials.password,'login'));
-    credentials.password = str_encrypt(credentials.password, "login");
+    credentials.password = str_encrypt(credentials.password, "userCredentials");
     return apiClient.post("/user/login", credentials);
   },
   setHeaderCommon(token) {

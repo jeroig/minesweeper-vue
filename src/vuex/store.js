@@ -133,7 +133,7 @@ export default new Vuex.Store({
           router.push({ name: "minesweeper" });
         })
         .catch(error => {
-          //console.log("There was an error:", error.response); //
+          //console.log("There was an error:", error.response);
           Vue.$swal(
             "Oops! " + error.response.data.error,
             "Please enter correct email & password",
