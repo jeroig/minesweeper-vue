@@ -89,10 +89,7 @@ export default new Vuex.Store({
           }
         })
         .catch(error => {
-          console.log(
-            "There was an error asyncSET_CELL_STATE:",
-            error.response
-          );
+          console.log("There was an error asyncSetCellState:" + error.response);
         });
     },
     asyncClickCell: ({ commit }, cell) => {
