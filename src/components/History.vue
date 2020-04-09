@@ -37,27 +37,27 @@ export default {
       games: [
         {
           id: 1,
-          date: "19/03/2020",
-          duration: "34 seg.",
-          status: "winner",
+          date: '19/03/2020',
+          duration: '34 seg.',
+          status: 'winner',
           board: { row: 4, file: 4, mines: 1 }
         },
         {
           id: 2,
-          date: "20/03/2020",
-          duration: "5 seg.",
-          status: "looser",
+          date: '20/03/2020',
+          duration: '5 seg.',
+          status: 'looser',
           board: { row: 4, file: 4, mines: 1 }
         },
         {
           id: 3,
-          date: "21/03/2020",
-          duration: "70 seg.",
-          status: "playing",
+          date: '21/03/2020',
+          duration: '70 seg.',
+          status: 'playing',
           board: { row: 10, file: 10, mines: 5 }
         }
       ]
-    };
+    }
   }
-};
+}
 </script>

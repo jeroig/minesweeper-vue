@@ -1,25 +1,25 @@
-import Vue from "vue";
-import VueSwal from "vue-swal";
-import App from "./App.vue";
-import router from "./router";
-import store from "@/vuex/store";
-import vuetify from "./plugins/vuetify";
+import Vue from 'vue'
+import VueSwal from 'vue-swal'
+import App from './App.vue'
+import router from './router'
+import store from '@/vuex/store'
+import vuetify from './plugins/vuetify'
 //import axios from "axios";
-import { apiClient } from "@/services/EventService.js";
+import { apiClient } from '@/services/EventService.js'
 
-Vue.config.productionTip = false;
-Vue.use(VueSwal);
+Vue.config.productionTip = false
+Vue.use(VueSwal)
 
 new Vue({
   router,
   store,
   vuetify,
   created() {
-    const userString = localStorage.getItem("user"); // grab user data from local storage
+    const userString = localStorage.getItem('user') // grab user data from local storage
     if (userString) {
       // check to see if there is indeed a user
-      const userData = JSON.parse(userString); // parse user data into JSON
-      this.$store.commit("SET_USER_DATA", userData); // restore user data with Vuex
+      const userData = JSON.parse(userString) // parse user data into JSON
+      this.$store.commit('SET_USER_DATA', userData) // restore user data with Vuex
     }
 
     apiClient.interceptors.response.use(
@@ -27,11 +27,11 @@ new Vue({
       error => {
         if (error.response.status === 401) {
           // if we catch a 401 error
-          this.$store.dispatch("logout"); // force a log out
+          this.$store.dispatch('logout') // force a log out
         }
-        return Promise.reject(error); // reject the Promise, with the error as the reason
+        return Promise.reject(error) // reject the Promise, with the error as the reason
       }
-    );
+    )
   },
   render: h => h(App)
-}).$mount("#app");
+}).$mount('#app')

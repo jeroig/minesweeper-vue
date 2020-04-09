@@ -16,16 +16,16 @@
 
 <script>
 // @ is an alias to /src
-import Board from "@/components/Board.vue";
-import Status from "@/components/Status.vue";
-import History from "@/components/History.vue";
+import Board from '@/components/Board.vue'
+import Status from '@/components/Status.vue'
+import History from '@/components/History.vue'
 
 export default {
-  name: "minesweeper",
+  name: 'minesweeper',
   components: {
     Board,
     Status,
     History
   }
-};
+}
 </script>

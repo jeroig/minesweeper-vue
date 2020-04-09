@@ -19,12 +19,12 @@
 
 <script>
 // @ is an alias to /src
-import Cell from "@/components/Cell.vue";
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
+import Cell from '@/components/Cell.vue'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: "board",
+  name: 'board',
 
   computed: {
     ...mapState({ board: state => state.game.board })
@@ -36,25 +36,25 @@ export default {
 
   methods: {
     getId(row, col) {
-      return row + "_" + col;
+      return row + '_' + col
     },
 
     getCellComponent(row, col) {
-      return this.$refs.cells.find(cell => cell.id === this.getId(row, col));
+      return this.$refs.cells.find(cell => cell.id === this.getId(row, col))
     },
 
     clickAdjacentCell: function(cell) {
-      let cell_component = this.getCellComponent(cell.row, cell.col);
-      cell_component.doClick();
+      let cell_component = this.getCellComponent(cell.row, cell.col)
+      cell_component.doClick()
     }
   },
   created() {
     // Init the game
-    this.$store.dispatch("asyncRestart", {
+    this.$store.dispatch('asyncRestart', {
       rows: this.board.rows,
       columns: this.board.columns,
       mines: this.board.mines
-    });
+    })
   }
-};
+}
 </script>

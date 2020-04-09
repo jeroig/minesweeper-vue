@@ -41,29 +41,29 @@
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
   data() {
     return {
       showPassword: false,
-      email: "",
-      password: ""
-    };
+      email: '',
+      password: ''
+    }
   },
   methods: {
     register: function() {
-      this.$store.dispatch("register", {
+      this.$store.dispatch('register', {
         email: this.email,
         password: this.password,
         router: this.$router
-      });
+      })
     },
     login: function() {
-      this.$store.dispatch("login", {
+      this.$store.dispatch('login', {
         email: this.email,
         password: this.password,
         router: this.$router
-      });
+      })
     }
   }
-};
+}
 </script>

@@ -47,7 +47,7 @@
 
 <script>
 export default {
-  name: "Cell",
+  name: 'Cell',
   props: {
     row: {
       type: Number,
@@ -61,64 +61,64 @@ export default {
 
   computed: {
     cellNumber() {
-      return this.cell.value == 0 ? "" : this.cell.value;
+      return this.cell.value == 0 ? '' : this.cell.value
     },
 
     cell() {
-      return this.$store.getters.cell(this.row, this.col);
+      return this.$store.getters.cell(this.row, this.col)
     },
 
     restart() {
-      return this.$store.state.restart;
+      return this.$store.state.restart
     },
 
     id() {
-      return this.row + "_" + this.col;
+      return this.row + '_' + this.col
     },
 
     disabled() {
-      if (this.$store.state.game.state == "playing") {
-        return false;
+      if (this.$store.state.game.state == 'playing') {
+        return false
       } else {
-        return true;
+        return true
       }
     },
 
     activeColor: function() {
-      if (this.cell.state == "disputed") return "lime darken-2";
-      else if (this.cell.state == "marked") return "red !important;";
+      if (this.cell.state == 'disputed') return 'lime darken-2'
+      else if (this.cell.state == 'marked') return 'red !important;'
       else
         switch (this.cell.value) {
           case -1:
-            return "black !important;";
+            return 'black !important;'
           case 1:
-            return "blue";
+            return 'blue'
           case 2:
-            return "green";
+            return 'green'
           case 3:
-            return "red";
+            return 'red'
           case 4:
-            return "purple";
+            return 'purple'
           default:
-            return "";
+            return ''
         }
     }
   },
 
   methods: {
     updateNeighbor: function(tmp_cell) {
-      this.$emit("update-neighbor", tmp_cell);
+      this.$emit('update-neighbor', tmp_cell)
     },
     doClick: function() {
-      this.$store.dispatch("asyncClickCell", this);
+      this.$store.dispatch('asyncClickCell', this)
     },
     newState: function(newState) {
-      this.$store.dispatch("asyncSetCellState", {
+      this.$store.dispatch('asyncSetCellState', {
         row: this.cell.row,
         col: this.cell.col,
         newState: newState
-      });
+      })
     }
   }
-};
+}
 </script>

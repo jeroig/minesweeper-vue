@@ -43,38 +43,38 @@
 </template>
 
 <script>
-import store from "@/vuex/store";
+import store from '@/vuex/store'
 //import { authComputed } from "@/vuex/helpers.js";
 
 export default {
-  name: "App",
+  name: 'App',
   data() {
     return {
       links: [
         {
-          label: "Login",
-          url: "/"
+          label: 'Login',
+          url: '/'
         },
         {
-          label: "Logout",
-          url: "/logout"
+          label: 'Logout',
+          url: '/logout'
         },
         {
-          label: "Game",
-          url: "/minesweeper"
+          label: 'Game',
+          url: '/minesweeper'
         }
       ]
-    };
+    }
   },
   computed: {
     availableLinks() {
       return this.links.filter(link =>
         store.getters.loggedId
-          ? link.label != "Login"
-          : link.label != "Logout" && link.label != "Game"
-      );
+          ? link.label != 'Login'
+          : link.label != 'Logout' && link.label != 'Game'
+      )
     }
   },
   methods: {}
-};
+}
 </script>

@@ -85,42 +85,42 @@ export default {
       rows: this.$store.state.game.board.rows,
       columns: this.$store.state.game.board.columns,
       mines: this.$store.state.game.board.mines
-    };
+    }
   },
   watch: {},
   computed: {
     gameTime() {
-      return this.$store.getters.gameTime;
+      return this.$store.getters.gameTime
     },
     getInfo() {
-      if (this.$store.state.game.state == "winner") {
+      if (this.$store.state.game.state == 'winner') {
         this.$swal(
-          "YOU WIN THE GAME in " + this.gameTime + " seg.",
-          "The game is over",
-          "success"
-        );
+          'YOU WIN THE GAME in ' + this.gameTime + ' seg.',
+          'The game is over',
+          'success'
+        )
         return {
-          color: "success",
-          icon: "mdi-check-circle",
+          color: 'success',
+          icon: 'mdi-check-circle',
           state: this.$store.state.game.state
-        };
-      } else if (this.$store.state.game.state == "looser") {
+        }
+      } else if (this.$store.state.game.state == 'looser') {
         this.$swal(
-          "Game Over",
-          "You click a mine so you loose the game",
-          "error"
-        );
+          'Game Over',
+          'You click a mine so you loose the game',
+          'error'
+        )
         return {
-          color: "error",
-          icon: "mdi-close-circle",
+          color: 'error',
+          icon: 'mdi-close-circle',
           state: this.$store.state.game.state
-        };
+        }
       } else {
         return {
-          color: "teal",
-          icon: "mdi-play-circle",
+          color: 'teal',
+          icon: 'mdi-play-circle',
           state: this.$store.state.game.state
-        };
+        }
       }
     }
   },
@@ -129,18 +129,18 @@ export default {
       return {
         value: this.$store.getters.cell(row, col).value,
         state: this.$store.getters.cell(row, col).state
-      };
+      }
     },
     restart() {
-      this.$store.dispatch("asyncRestart", {
+      this.$store.dispatch('asyncRestart', {
         rows: this.rows,
         columns: this.columns,
         mines: this.mines
-      });
+      })
     }
   },
   created() {
     //
   }
-};
+}
 </script>
