@@ -9,6 +9,7 @@ export default new Vuex.Store({
     user: null,
     restart: 0,
     game: {
+      id: null,
       timer: 0,
       state: 'playing',
       interval_id: 0,
@@ -59,7 +60,7 @@ export default new Vuex.Store({
     asyncRestart: ({ commit }, newValues) => {
       EventService.newGame(newValues.rows, newValues.columns, newValues.mines)
         .then(response => {
-          //console.log(response.data);
+          //console.log(response.data)
           commit('RESTART_GAME', response.data)
         })
         .catch(error => {
@@ -67,14 +68,20 @@ export default new Vuex.Store({
         })
     },
     asyncGameState: ({ commit }, newValue) => {
-      if (newValue == 'looser' || newValue == 'winner') {
+      if (newValue == 'loser' || newValue == 'winner') {
         commit('SET_GAME_OVER', newValue)
       }
     },
-    asyncSetCellState: ({ commit }, values) => {
-      EventService.setState(values.newState, values.row, values.col)
+    asyncSetCellState: ({ commit, state }, values) => {
+      console.log(state.game.id)
+      EventService.setState(
+        state.game.id,
+        values.newState,
+        values.row,
+        values.col
+      )
         .then(response => {
-          //console.log(response.data.cell)
+          console.log(response.data.cell)
           commit('SET_CELL_STATE', {
             row: response.data.cell.row,
             col: response.data.cell.col,
@@ -82,7 +89,7 @@ export default new Vuex.Store({
             value: response.data.cell.value
           })
           if (
-            response.data.state == 'looser' ||
+            response.data.state == 'loser' ||
             response.data.state == 'winner'
           ) {
             commit('SET_GAME_OVER', response.data.state)
@@ -92,8 +99,8 @@ export default new Vuex.Store({
           console.log('There was an error asyncSetCellState:' + error.response)
         })
     },
-    asyncClickCell: ({ commit }, cell) => {
-      EventService.setState('click', cell.row, cell.col)
+    asyncClickCell: ({ commit, state }, cell) => {
+      EventService.setState(state.game.id, 'click', cell.row, cell.col)
         .then(response => {
           //console.log(response.data)
           if (response.data.was_clicked == false) {
@@ -104,7 +111,7 @@ export default new Vuex.Store({
               value: response.data.cell.value
             })
             if (
-              response.data.state == 'looser' ||
+              response.data.state == 'loser' ||
               response.data.state == 'winner'
             ) {
               commit('SET_GAME_OVER', response.data.state)
@@ -120,7 +127,8 @@ export default new Vuex.Store({
           }
         })
         .catch(error => {
-          console.log('There was an error asyncClickCell:', error.response)
+          console.log('There was an error asyncClickCell:', error)
+          //console.log('There was an error asyncClickCell:', error.response)
         })
     },
     register: ({ commit }, credentials) => {
@@ -130,7 +138,9 @@ export default new Vuex.Store({
         .then(response => {
           //console.log(response.data);
           commit('SET_USER_DATA', response.data)
-          router.push({ name: 'minesweeper' })
+          router.push({
+            name: 'minesweeper'
+          })
         })
         .catch(error => {
           //console.log("There was an error:", error.response);
@@ -147,7 +157,9 @@ export default new Vuex.Store({
       EventService.login(credentials)
         .then(response => {
           commit('SET_USER_DATA', response.data)
-          router.push({ name: 'minesweeper' })
+          router.push({
+            name: 'minesweeper'
+          })
         })
         .catch(error => {
           Vue.$swal(

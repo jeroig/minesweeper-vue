@@ -104,7 +104,7 @@ export default {
           icon: 'mdi-check-circle',
           state: this.$store.state.game.state
         }
-      } else if (this.$store.state.game.state == 'looser') {
+      } else if (this.$store.state.game.state == 'loser') {
         this.$swal(
           'Game Over',
           'You click a mine so you loose the game',

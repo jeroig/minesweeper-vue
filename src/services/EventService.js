@@ -22,8 +22,10 @@ export default {
   newGame(rows, columns, mines) {
     return apiClient.get('/game/reset/' + rows + '/' + columns + '/' + mines)
   },
-  setState(state, row, col) {
-    return apiClient.get('/game/' + state + '/row/' + row + '/col/' + col)
+  setState(gameId, state, row, col) {
+    return apiClient.get(
+      '/game/' + gameId + '/' + state + '/row/' + row + '/col/' + col
+    )
   },
   newUser(credentials) {
     credentials.password = str_encrypt(credentials.password, 'userCredentials')

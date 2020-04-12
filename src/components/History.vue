@@ -7,12 +7,7 @@
             <v-icon v-if="game.status == 'winner'" large left color="success">
               mdi-check-circle
             </v-icon>
-            <v-icon
-              v-else-if="game.status == 'looser'"
-              large
-              left
-              color="error"
-            >
+            <v-icon v-else-if="game.status == 'loser'" large left color="error">
               mdi-close-circle
             </v-icon>
             <v-icon v-else large left color="teal">
@@ -46,7 +41,7 @@ export default {
           id: 2,
           date: '20/03/2020',
           duration: '5 seg.',
-          status: 'looser',
+          status: 'loser',
           board: { row: 4, file: 4, mines: 1 }
         },
         {
