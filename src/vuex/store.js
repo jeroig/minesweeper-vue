@@ -50,10 +50,11 @@ export default new Vuex.Store({
     },
 
     SET_CELL_STATE(state, data) {
-      state.game.board.cells[data.row][data.col].state = data.newState
-      //console.log('---------------------------');
-      //console.log(data.row + '_' + data.col + ': ' + data.value);
-      state.game.board.cells[data.row][data.col].value = data.value
+      let cell = state.game.board.cells.find(
+        cell => cell.row == data.row && cell.col == data.col
+      )
+      cell.state = data.newState
+      cell.value = data.value
     }
   },
   actions: {
@@ -127,8 +128,8 @@ export default new Vuex.Store({
           }
         })
         .catch(error => {
-          console.log('There was an error asyncClickCell:', error)
-          //console.log('There was an error asyncClickCell:', error.response)
+          //console.log('There was an error asyncClickCell:', error)
+          console.log('There was an error asyncClickCell:', error.response)
         })
     },
     register: ({ commit }, credentials) => {
@@ -180,7 +181,9 @@ export default new Vuex.Store({
     },
     cell: state => (row, col) => {
       if (state.game.board.cells === null) return ''
-      return state.game.board.cells[row][col]
+      return state.game.board.cells.find(
+        cell => cell.row == row && cell.col == col
+      )
     },
     loggedId: state => {
       return !!state.user
