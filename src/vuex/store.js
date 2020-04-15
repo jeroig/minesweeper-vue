@@ -44,9 +44,9 @@ export default new Vuex.Store({
       }, 1000)
       //state.game.interval_id = t;
     },
-
-    SET_GAME_OVER(state, newState) {
-      state.game.state = newState
+    SET_GAME_OVER(state, data) {
+      state.game.state = data.state
+      state.game.timer = data.timer
     },
 
     SET_CELL_STATE(state, data) {
@@ -68,13 +68,7 @@ export default new Vuex.Store({
           console.log('There was an error:', error.response) // Logs out the error
         })
     },
-    asyncGameState: ({ commit }, newValue) => {
-      if (newValue == 'loser' || newValue == 'winner') {
-        commit('SET_GAME_OVER', newValue)
-      }
-    },
     asyncSetCellState: ({ commit, state }, values) => {
-      console.log(state.game.id)
       EventService.setState(
         state.game.id,
         values.newState,
@@ -82,7 +76,6 @@ export default new Vuex.Store({
         values.col
       )
         .then(response => {
-          console.log(response.data.cell)
           commit('SET_CELL_STATE', {
             row: response.data.cell.row,
             col: response.data.cell.col,
@@ -93,7 +86,7 @@ export default new Vuex.Store({
             response.data.state == 'loser' ||
             response.data.state == 'winner'
           ) {
-            commit('SET_GAME_OVER', response.data.state)
+            commit('SET_GAME_OVER', response.data)
           }
         })
         .catch(error => {
@@ -115,7 +108,7 @@ export default new Vuex.Store({
               response.data.state == 'loser' ||
               response.data.state == 'winner'
             ) {
-              commit('SET_GAME_OVER', response.data.state)
+              commit('SET_GAME_OVER', response.data)
             }
             // Hacemos click en todos los vecinos con value 0
             if (response.data.cell.value === 0) {
