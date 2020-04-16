@@ -7,7 +7,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: null,
-    restart: 0,
     game: {
       id: null,
       timer: 0,
@@ -35,7 +34,6 @@ export default new Vuex.Store({
     },
     RESTART_GAME(state, data) {
       clearInterval(state.game.interval_id)
-      state.restart++
       state.game = data.game
       state.game.interval_id = setInterval(function() {
         if (state.game.state == 'playing') {
@@ -48,7 +46,6 @@ export default new Vuex.Store({
       state.game.state = data.state
       state.game.timer = data.timer
     },
-
     SET_CELL_STATE(state, data) {
       let cell = state.game.board.cells.find(
         cell => cell.row == data.row && cell.col == data.col
