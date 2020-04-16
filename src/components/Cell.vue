@@ -1,7 +1,6 @@
 <template>
   <v-btn
     v-if="this.cell.state == 'clicked' && this.cell.value != -1"
-    v-bind:restart="restart"
     disabled
     rounded
   >
@@ -9,7 +8,6 @@
   </v-btn>
   <v-btn
     v-else-if="(this.cell.state == 'clicked') & (this.cell.value == -1)"
-    v-bind:restart="restart"
     disabled
     rounded
   >
@@ -18,7 +16,6 @@
   <v-btn
     v-else-if="this.cell.state == 'disputed'"
     v-on:contextmenu.prevent="newState('mark')"
-    v-bind:restart="restart"
     v-bind:disabled="disabled"
     rounded
   >
@@ -27,7 +24,6 @@
   <v-btn
     v-else-if="this.cell.state == 'marked'"
     v-on:contextmenu.prevent="newState('to_click')"
-    v-bind:restart="restart"
     v-bind:disabled="disabled"
     rounded
   >
@@ -38,7 +34,6 @@
     v-on:click="doClick"
     v-on:contextmenu.prevent="newState('question')"
     v-bind:id="id"
-    v-bind:restart="restart"
     v-bind:disabled="disabled"
     rounded
   >
@@ -67,11 +62,6 @@ export default {
     cell() {
       return this.$store.getters.cell(this.row, this.col)
     },
-
-    restart() {
-      return this.$store.state.restart
-    },
-
     id() {
       return this.row + '_' + this.col
     },
