@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row v-for="game in games" :key="game.id">
+    <v-row v-for="game in gamesPage" :key="game.id">
       <v-col>
         <v-card elevation hover shaped>
           <v-card-title>
@@ -22,13 +22,32 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <div class="text-center">
+          <v-pagination
+            v-model="pageNumber"
+            :length="paginationLength"
+            total-visible="5"
+            circle
+            color="success"
+            light
+          >
+          </v-pagination>
+        </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
+import EventService from '@/services/EventService.js'
+
 export default {
   data() {
     return {
+      pageNumber: 1,
+      pageSize: 3,
       games: [
         {
           id: 1,
@@ -50,9 +69,66 @@ export default {
           duration: '70 seg.',
           status: 'playing',
           board: { row: 10, file: 10, mines: 5 }
+        },
+        {
+          id: 4,
+          date: '22/03/2020',
+          duration: '70 seg.',
+          status: 'playing',
+          board: { row: 10, file: 10, mines: 5 }
+        },
+        {
+          id: 5,
+          date: '23/03/2020',
+          duration: '70 seg.',
+          status: 'playing',
+          board: { row: 10, file: 10, mines: 5 }
+        },
+        {
+          id: 6,
+          date: '24/03/2020',
+          duration: '70 seg.',
+          status: 'playing',
+          board: { row: 10, file: 10, mines: 5 }
+        },
+        {
+          id: 7,
+          date: '25/03/2020',
+          duration: '70 seg.',
+          status: 'playing',
+          board: { row: 10, file: 10, mines: 5 }
+        },
+        {
+          id: 8,
+          date: '26/03/2020',
+          duration: '70 seg.',
+          status: 'playing',
+          board: { row: 10, file: 10, mines: 5 }
         }
       ]
     }
+  },
+  computed: {
+    paginationLength() {
+      return Math.ceil(this.games.length / this.pageSize)
+    },
+    gamesPage() {
+      return this.games.slice(
+        (this.pageNumber - 1) * this.pageSize,
+        this.pageNumber * this.pageSize
+      )
+    }
+  },
+  created() {
+    /*
+    EventService.historyGames()
+      .then(response => {
+        //console.log(response.data)
+      })
+      .catch(error => {
+        console.log('There was an error:', error.response) // Logs out the error
+      })
+    */
   }
 }
 </script>
