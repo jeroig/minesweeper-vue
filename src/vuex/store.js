@@ -9,13 +9,13 @@ export default new Vuex.Store({
     user: null,
     game: {
       id: null,
-      timer: 0,
-      state: 'playing',
+      timer: null,
+      state: null,
       interval_id: 0,
       board: {
-        rows: 4,
-        columns: 4,
-        mines: 1,
+        rows: null,
+        columns: null,
+        mines: null,
         cells: null
       }
     }
@@ -166,8 +166,14 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    gameId: state => {
+      return !!state.game.id
+    },
     gameTime: state => {
       return state.game.timer
+    },
+    gameState: state => {
+      return state.game.state
     },
     cell: state => (row, col) => {
       if (state.game.board.cells === null) return ''

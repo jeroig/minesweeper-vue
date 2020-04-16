@@ -3,6 +3,7 @@
     <v-row>
       <v-col>
         <v-alert
+          v-if="getInfo.state"
           text
           dense
           :color="getInfo.color"
@@ -13,7 +14,14 @@
         </v-alert>
       </v-col>
       <v-col>
-        <v-alert text dense color="teal" icon="mdi-clock-fast" border="left">
+        <v-alert
+          v-if="getInfo.state"
+          text
+          dense
+          color="teal"
+          icon="mdi-clock-fast"
+          border="left"
+        >
           {{ gameTime }} segs.
         </v-alert>
       </v-col>
@@ -61,24 +69,17 @@
           class="my-2"
           @click="restart"
         >
-          Restart
+          {{ btnValue }}
         </v-btn>
       </v-col>
       <v-spacer></v-spacer>
     </v-row>
-    <!--
-    Celdat:
-    <b>
-      {{ infoCell(0,0) }} | {{ infoCell(0,1) }}  | {{ infoCell(0,2) }} | {{ infoCell(0,3) }}  <br />
-      {{ infoCell(1,0) }} | {{ infoCell(1,1) }}  | {{ infoCell(1,2) }} | {{ infoCell(1,3) }} <br />
-      {{ infoCell(2,0) }} | {{ infoCell(2,1) }}  | {{ infoCell(2,2) }} | {{ infoCell(2,3) }} <br />
-      {{ infoCell(3,0) }} | {{ infoCell(3,1) }}  | {{ infoCell(3,2) }} | {{ infoCell(3,3) }} <br />
-    </b>
-    -->
   </v-container>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
@@ -89,11 +90,13 @@ export default {
   },
   watch: {},
   computed: {
-    gameTime() {
-      return this.$store.getters.gameTime
+    ...mapGetters(['gameTime', 'gameState']),
+
+    btnValue() {
+      return this.gameState == 'playing' ? 'Restart' : 'Start'
     },
     getInfo() {
-      if (this.$store.state.game.state == 'winner') {
+      if (this.gameState == 'winner') {
         this.$swal(
           'YOU WIN THE GAME in ' + this.gameTime + ' seg.',
           'The game is over',
@@ -102,9 +105,9 @@ export default {
         return {
           color: 'success',
           icon: 'mdi-check-circle',
-          state: this.$store.state.game.state
+          state: this.gameState
         }
-      } else if (this.$store.state.game.state == 'loser') {
+      } else if (this.gameState == 'loser') {
         this.$swal(
           'Game Over',
           'You click a mine so you loose the game',
@@ -113,13 +116,13 @@ export default {
         return {
           color: 'error',
           icon: 'mdi-close-circle',
-          state: this.$store.state.game.state
+          state: this.gameState
         }
       } else {
         return {
           color: 'teal',
           icon: 'mdi-play-circle',
-          state: this.$store.state.game.state
+          state: this.gameState
         }
       }
     }
