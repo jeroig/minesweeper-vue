@@ -42,7 +42,7 @@ export default {
       ? `Bearer ${token}`
       : null
   },
-  historyGame() {
+  historyGames() {
     return apiClient.get('/game/history')
   }
 }

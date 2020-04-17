@@ -120,15 +120,14 @@ export default {
     }
   },
   created() {
-    /*
     EventService.historyGames()
       .then(response => {
         //console.log(response.data)
+        this.games = response.data
       })
       .catch(error => {
         console.log('There was an error:', error.response) // Logs out the error
       })
-    */
   }
 }
 </script>
