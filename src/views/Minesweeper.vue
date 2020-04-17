@@ -6,23 +6,11 @@
       </v-col>
       <v-col>
         <v-container v-if="!gameId">
-          <v-row>
-            <v-col>
-              <v-row align="center" justify="center">
-                <v-alert
-                  border="top"
-                  colored-border
-                  color="light-green darken-1"
-                  elevation="5"
-                  dense
-                  icon="mdi-alert-circle-outline"
-                >
-                  In this section you can see the GameBoard once you start the
-                  Game.
-                </v-alert>
-              </v-row>
-            </v-col>
-          </v-row>
+          <Alert
+            ref="alert"
+            message="In this section you can see the GameBoard once you start the
+                  Game."
+          />
         </v-container>
         <Board />
       </v-col>
@@ -38,6 +26,7 @@
 import Board from '@/components/Board.vue'
 import Status from '@/components/Status.vue'
 import History from '@/components/History.vue'
+import Alert from '@/views/Alert.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -45,7 +34,8 @@ export default {
   components: {
     Board,
     Status,
-    History
+    History,
+    Alert
   },
   computed: {
     ...mapGetters(['gameId'])

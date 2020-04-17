@@ -4,8 +4,8 @@ import hmacSHA512 from 'crypto-js/hmac-sha512'
 import Base64 from 'crypto-js/enc-base64'
 
 export const apiClient = axios.create({
-  //baseURL: 'http://localhost:3000/api',
-  baseURL: 'http://192.168.88.11:3000/api',
+  baseURL: 'http://localhost:3000/api',
+  //baseURL: 'http://192.168.88.11:3000/api',
   //baseURL: "http://minesweeper-api.reservable.com.ar/api",
   withCredentials: false,
   headers: {
