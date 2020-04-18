@@ -1,9 +1,15 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row v-if="!getInfo.state">
+      <Alert
+        ref="alert"
+        message="In this section you can see the state of the game and the time played."
+      />
+    </v-row>
+
+    <v-row v-else>
       <v-col>
         <v-alert
-          v-if="getInfo.state"
           text
           dense
           :color="getInfo.color"
@@ -14,14 +20,7 @@
         </v-alert>
       </v-col>
       <v-col>
-        <v-alert
-          v-if="getInfo.state"
-          text
-          dense
-          color="teal"
-          icon="mdi-clock-fast"
-          border="left"
-        >
+        <v-alert text dense color="teal" icon="mdi-clock-fast" border="left">
           {{ gameTime }} segs.
         </v-alert>
       </v-col>
@@ -78,9 +77,13 @@
 </template>
 
 <script>
+import Alert from '@/views/Alert.vue'
 import { mapGetters } from 'vuex'
+import EventBus from '@/components/EventBus.js'
 
 export default {
+  name: 'Status',
+  components: { Alert },
   data() {
     return {
       rows: this.$store.state.game.board.rows,
@@ -140,6 +143,7 @@ export default {
         columns: this.columns,
         mines: this.mines
       })
+      EventBus.$emit('refreshHistory')
     }
   },
   created() {

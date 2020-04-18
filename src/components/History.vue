@@ -56,8 +56,10 @@
 <script>
 import EventService from '@/services/EventService.js'
 import Alert from '@/views/Alert.vue'
+import EventBus from '@/components/EventBus.js'
 
 export default {
+  name: 'history',
   components: {
     Alert
   },
@@ -82,16 +84,24 @@ export default {
       )
     }
   },
+  methods: {
+    getHistory() {
+      EventService.historyGames()
+        .then(response => {
+          //console.log(response.data)
+          this.games = response.data
+        })
+        .catch(error => {
+          console.log('There was an error:', error.response) // Logs out the error
+        })
+    }
+  },
 
   created() {
-    EventService.historyGames()
-      .then(response => {
-        //console.log(response.data)
-        this.games = response.data
-      })
-      .catch(error => {
-        console.log('There was an error:', error.response) // Logs out the error
-      })
+    EventBus.$on('refreshHistory', () => {
+      this.getHistory()
+    })
+    this.getHistory()
   }
 }
 </script>

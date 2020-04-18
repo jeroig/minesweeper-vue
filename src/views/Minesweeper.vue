@@ -39,6 +39,7 @@ export default {
   },
   computed: {
     ...mapGetters(['gameId'])
-  }
+  },
+  methods: {}
 }
 </script>

@@ -56,15 +56,6 @@ export default {
       cell_component.doClick()
     }
   },
-  created() {
-    // Init the game
-    /*
-    this.$store.dispatch('asyncRestart', {
-      rows: this.board.rows,
-      columns: this.board.columns,
-      mines: this.board.mines
-    })
-    */
-  }
+  created() {}
 }
 </script>
