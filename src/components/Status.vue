@@ -25,54 +25,55 @@
         </v-alert>
       </v-col>
     </v-row>
-
-    <v-row>
-      <v-col>
-        <v-text-field
-          type="number"
-          v-model="rows"
-          label="Rows"
-          min="1"
-          max="10"
-        ></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field
-          type="number"
-          v-model="columns"
-          label="Columns"
-          min="1"
-          max="10"
-        ></v-text-field>
-      </v-col>
-      <v-col>
-        <v-text-field
-          type="number"
-          v-model="mines"
-          label="Mines"
-          min="1"
-          max="99"
-        ></v-text-field>
-      </v-col>
-    </v-row>
-
-    <v-row>
-      <v-spacer></v-spacer>
-      <v-col>
-        <v-btn
-          dark
-          color="light-green darken-1"
-          elevation="8"
-          padless
-          rounded
-          class="my-2"
-          @click="restart"
-        >
-          {{ btnValue }}
-        </v-btn>
-      </v-col>
-      <v-spacer></v-spacer>
-    </v-row>
+    <v-form v-model="isFormValid">
+      <v-row>
+        <v-col>
+          <v-text-field
+            type="number"
+            v-model="rows"
+            label="Rows"
+            min="1"
+            max="10"
+            :rules="validLimits"
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field
+            type="number"
+            v-model="columns"
+            label="Columns"
+            min="1"
+            max="10"
+            :rules="validLimits"
+          ></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field
+            type="number"
+            v-model="mines"
+            label="Mines"
+            :rules="maxMinesRule"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-spacer></v-spacer>
+        <v-col>
+          <v-btn
+            color="light-green darken-1"
+            elevation="8"
+            padless
+            rounded
+            class="my-2 white--text"
+            @click="restart"
+            :disabled="!isFormValid"
+          >
+            {{ btnValue }}
+          </v-btn>
+        </v-col>
+        <v-spacer></v-spacer>
+      </v-row>
+    </v-form>
   </v-container>
 </template>
 
@@ -88,13 +89,34 @@ export default {
     return {
       rows: this.$store.state.game.board.rows,
       columns: this.$store.state.game.board.columns,
-      mines: this.$store.state.game.board.mines
+      mines: this.$store.state.game.board.mines,
+      validLimits: [
+        value => !!value || 'Value is required',
+        value => value >= 1 || 'Minimum value is 1.',
+        value => value <= 10 || 'Maximun value is 10.'
+      ],
+      isFormValid: false
     }
   },
   watch: {},
   computed: {
     ...mapGetters(['gameTime', 'gameState']),
 
+    maxMines() {
+      return this.rows == 0 || this.columns == 0
+        ? 0
+        : this.rows * this.columns - 1
+    },
+    maxMinesRule() {
+      const rules = []
+      rules.push(value => !!value || 'Value is required')
+      const dynamicRule = value =>
+        value <= this.maxMines ||
+        `A maximum of ${this.maxMines} mines is allowed`
+      rules.push(dynamicRule)
+      rules.push(value => value >= 1 || 'At least 1 mine must be defined.')
+      return rules
+    },
     btnValue() {
       return this.gameState == 'playing' ? 'Restart' : 'Start'
     },
@@ -131,6 +153,9 @@ export default {
     }
   },
   methods: {
+    validate() {
+      this.isFormValid = this.$refs.form.validate()
+    },
     infoCell: function(row, col) {
       return {
         value: this.$store.getters.cell(row, col).value,
