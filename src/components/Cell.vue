@@ -89,6 +89,14 @@ export default {
             return 'red'
           case 4:
             return 'purple'
+          case 5:
+            return 'darkgoldenrod'
+          case 6:
+            return 'royalblue'
+          case 7:
+            return 'seagreen'
+          case 8:
+            return 'mediumvioletred'
           default:
             return ''
         }
