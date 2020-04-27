@@ -46,12 +46,12 @@ export default {
   props: {
     row: {
       type: Number,
-      required: true
+      required: true,
     },
     col: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
 
   computed: {
@@ -74,7 +74,7 @@ export default {
       }
     },
 
-    activeColor: function() {
+    activeColor: function () {
       if (this.cell.state == 'disputed') return 'lime darken-2'
       else if (this.cell.state == 'marked') return 'red !important;'
       else
@@ -100,23 +100,23 @@ export default {
           default:
             return ''
         }
-    }
+    },
   },
 
   methods: {
-    updateNeighbor: function(tmp_cell) {
+    updateNeighbor: function (tmp_cell) {
       this.$emit('update-neighbor', tmp_cell)
     },
-    doClick: function() {
+    doClick: function () {
       this.$store.dispatch('asyncClickCell', this)
     },
-    newState: function(newState) {
+    newState: function (newState) {
       this.$store.dispatch('asyncSetCellState', {
         row: this.cell.row,
         col: this.cell.col,
-        newState: newState
+        newState: newState,
       })
-    }
-  }
+    },
+  },
 }
 </script>

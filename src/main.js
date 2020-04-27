@@ -23,8 +23,8 @@ new Vue({
     }
 
     apiClient.interceptors.response.use(
-      response => response,
-      error => {
+      (response) => response,
+      (error) => {
         if (error.response.status === 401) {
           // if we catch a 401 error
           this.$store.dispatch('logout') // force a log out
@@ -33,5 +33,5 @@ new Vue({
       }
     )
   },
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount('#app')

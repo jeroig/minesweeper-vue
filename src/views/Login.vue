@@ -25,7 +25,7 @@
                 @click:append="showPassword = !showPassword"
                 v-model="password"
                 name="password"
-                :rules="[v => !!v || 'Password is required']"
+                :rules="[(v) => !!v || 'Password is required']"
               />
             </v-card-text>
             <v-divider></v-divider>
@@ -58,33 +58,34 @@ export default {
       password: '',
       isFormValid: false,
       emailRules: [
-        value => value.indexOf('@') !== 0 || 'Email should have a username.',
-        value => value.includes('@') || 'Email should include an @ symbol.',
-        value =>
+        (value) => value.indexOf('@') !== 0 || 'Email should have a username.',
+        (value) => value.includes('@') || 'Email should include an @ symbol.',
+        (value) =>
           value.indexOf('.') - value.indexOf('@') > 1 ||
           'Email should contain a valid domain.',
-        value => value.includes('.') || 'Email should include a period symbol.',
-        value =>
+        (value) =>
+          value.includes('.') || 'Email should include a period symbol.',
+        (value) =>
           value.indexOf('.') <= value.length - 3 ||
-          'Email should contain a valid domain extension.'
-      ]
+          'Email should contain a valid domain extension.',
+      ],
     }
   },
   methods: {
-    register: function() {
+    register: function () {
       this.$store.dispatch('register', {
         email: this.email,
         password: this.password,
-        router: this.$router
+        router: this.$router,
       })
     },
-    login: function() {
+    login: function () {
       this.$store.dispatch('login', {
         email: this.email,
         password: this.password,
-        router: this.$router
+        router: this.$router,
       })
-    }
-  }
+    },
+  },
 }
 </script>

@@ -35,11 +35,11 @@ export default {
     Board,
     Status,
     History,
-    Alert
+    Alert,
   },
   computed: {
-    ...mapGetters(['gameId'])
+    ...mapGetters(['gameId']),
   },
-  methods: {}
+  methods: {},
 }
 </script>

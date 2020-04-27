@@ -23,17 +23,17 @@ export default {
   props: {
     color: {
       type: String,
-      default: 'light-green darken-1'
+      default: 'light-green darken-1',
     },
     icon: {
       type: String,
-      default: 'mdi-alert-circle-outline'
+      default: 'mdi-alert-circle-outline',
     },
     message: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

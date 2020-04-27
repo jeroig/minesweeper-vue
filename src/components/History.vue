@@ -61,13 +61,13 @@ import EventBus from '@/components/EventBus.js'
 export default {
   name: 'history',
   components: {
-    Alert
+    Alert,
   },
   data() {
     return {
       pageNumber: 1,
       pageSize: 3,
-      games: []
+      games: [],
     }
   },
   computed: {
@@ -82,19 +82,19 @@ export default {
         (this.pageNumber - 1) * this.pageSize,
         this.pageNumber * this.pageSize
       )
-    }
+    },
   },
   methods: {
     getHistory() {
       EventService.historyGames()
-        .then(response => {
+        .then((response) => {
           //console.log(response.data)
           this.games = response.data
         })
-        .catch(error => {
+        .catch((error) => {
           console.log('There was an error:', error.response) // Logs out the error
         })
-    }
+    },
   },
 
   created() {
@@ -102,6 +102,6 @@ export default {
       this.getHistory()
     })
     this.getHistory()
-  }
+  },
 }
 </script>

@@ -10,8 +10,8 @@ export const apiClient = axios.create({
   withCredentials: false,
   headers: {
     Accept: 'application/json',
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 })
 
 function str_encrypt(password, key) {
@@ -44,5 +44,5 @@ export default {
   },
   historyGames() {
     return apiClient.get('/game/history')
-  }
+  },
 }

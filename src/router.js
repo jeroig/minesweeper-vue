@@ -12,12 +12,12 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('./views/Login.vue')
+      component: () => import('./views/Login.vue'),
     },
     {
       path: '/minesweeper',
@@ -26,21 +26,21 @@ const router = new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import('./views/Minesweeper.vue'),
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
       path: '/logout',
       beforeEnter: (to, from, next) => {
         store.dispatch('logout')
         //next("/");
-      }
-    }
-  ]
+      },
+    },
+  ],
 })
 
 router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem('user')
-  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+  if (to.matched.some((record) => record.meta.requiresAuth) && !loggedIn) {
     next('/')
   }
   next()

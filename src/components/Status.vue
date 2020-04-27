@@ -91,11 +91,11 @@ export default {
       columns: this.$store.state.game.board.columns,
       mines: this.$store.state.game.board.mines,
       validLimits: [
-        value => !!value || 'Value is required',
-        value => value >= 1 || 'Minimum value is 1.',
-        value => value <= 10 || 'Maximun value is 10.'
+        (value) => !!value || 'Value is required',
+        (value) => value >= 1 || 'Minimum value is 1.',
+        (value) => value <= 10 || 'Maximun value is 10.',
       ],
-      isFormValid: false
+      isFormValid: false,
     }
   },
   watch: {},
@@ -109,12 +109,12 @@ export default {
     },
     maxMinesRule() {
       const rules = []
-      rules.push(value => !!value || 'Value is required')
-      const dynamicRule = value =>
+      rules.push((value) => !!value || 'Value is required')
+      const dynamicRule = (value) =>
         value <= this.maxMines ||
         `A maximum of ${this.maxMines} mines is allowed`
       rules.push(dynamicRule)
-      rules.push(value => value >= 1 || 'At least 1 mine must be defined.')
+      rules.push((value) => value >= 1 || 'At least 1 mine must be defined.')
       return rules
     },
     btnValue() {
@@ -130,7 +130,7 @@ export default {
         return {
           color: 'success',
           icon: 'mdi-check-circle',
-          state: this.gameState
+          state: this.gameState,
         }
       } else if (this.gameState == 'loser') {
         this.$swal(
@@ -141,38 +141,38 @@ export default {
         return {
           color: 'error',
           icon: 'mdi-close-circle',
-          state: this.gameState
+          state: this.gameState,
         }
       } else {
         return {
           color: 'teal',
           icon: 'mdi-play-circle',
-          state: this.gameState
+          state: this.gameState,
         }
       }
-    }
+    },
   },
   methods: {
     validate() {
       this.isFormValid = this.$refs.form.validate()
     },
-    infoCell: function(row, col) {
+    infoCell: function (row, col) {
       return {
         value: this.$store.getters.cell(row, col).value,
-        state: this.$store.getters.cell(row, col).state
+        state: this.$store.getters.cell(row, col).state,
       }
     },
     restart() {
       this.$store.dispatch('asyncRestart', {
         rows: this.rows,
         columns: this.columns,
-        mines: this.mines
+        mines: this.mines,
       })
       EventBus.$emit('refreshHistory')
-    }
+    },
   },
   created() {
     //
-  }
+  },
 }
 </script>

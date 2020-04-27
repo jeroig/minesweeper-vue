@@ -16,9 +16,9 @@ export default new Vuex.Store({
         rows: null,
         columns: null,
         mines: null,
-        cells: null
-      }
-    }
+        cells: null,
+      },
+    },
   },
   mutations: {
     SET_USER_DATA(state, userData) {
@@ -35,7 +35,7 @@ export default new Vuex.Store({
     RESTART_GAME(state, data) {
       clearInterval(state.game.interval_id)
       state.game = data.game
-      state.game.interval_id = setInterval(function() {
+      state.game.interval_id = setInterval(function () {
         if (state.game.state == 'playing') {
           state.game.timer++
         }
@@ -48,20 +48,20 @@ export default new Vuex.Store({
     },
     SET_CELL_STATE(state, data) {
       let cell = state.game.board.cells.find(
-        cell => cell.row == data.row && cell.col == data.col
+        (cell) => cell.row == data.row && cell.col == data.col
       )
       cell.state = data.newState
       cell.value = data.value
-    }
+    },
   },
   actions: {
     asyncRestart: ({ commit }, newValues) => {
       EventService.newGame(newValues.rows, newValues.columns, newValues.mines)
-        .then(response => {
+        .then((response) => {
           //console.log(response.data)
           commit('RESTART_GAME', response.data)
         })
-        .catch(error => {
+        .catch((error) => {
           console.log('There was an error:', error.response) // Logs out the error
         })
     },
@@ -72,12 +72,12 @@ export default new Vuex.Store({
         values.row,
         values.col
       )
-        .then(response => {
+        .then((response) => {
           commit('SET_CELL_STATE', {
             row: response.data.cell.row,
             col: response.data.cell.col,
             newState: response.data.cell.state,
-            value: response.data.cell.value
+            value: response.data.cell.value,
           })
           if (
             response.data.state == 'loser' ||
@@ -86,20 +86,20 @@ export default new Vuex.Store({
             commit('SET_GAME_OVER', response.data)
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log('There was an error asyncSetCellState:' + error.response)
         })
     },
     asyncClickCell: ({ commit, state }, cell) => {
       EventService.setState(state.game.id, 'click', cell.row, cell.col)
-        .then(response => {
+        .then((response) => {
           //console.log(response.data)
           if (response.data.was_clicked == false) {
             commit('SET_CELL_STATE', {
               row: response.data.cell.row,
               col: response.data.cell.col,
               newState: response.data.cell.state,
-              value: response.data.cell.value
+              value: response.data.cell.value,
             })
             if (
               response.data.state == 'loser' ||
@@ -109,7 +109,7 @@ export default new Vuex.Store({
             }
             // Hacemos click en todos los vecinos con value 0
             if (response.data.cell.value === 0) {
-              response.data.neighbors.map(neighbor_cell => {
+              response.data.neighbors.map((neighbor_cell) => {
                 cell.updateNeighbor(neighbor_cell)
               })
             }
@@ -117,7 +117,7 @@ export default new Vuex.Store({
             //console.log('Ya fue clickeado: ' + cell.row + '_' + cell.col)
           }
         })
-        .catch(error => {
+        .catch((error) => {
           //console.log('There was an error asyncClickCell:', error)
           console.log('There was an error asyncClickCell:', error.response)
         })
@@ -126,14 +126,14 @@ export default new Vuex.Store({
       let router = credentials['router']
       delete credentials['router']
       EventService.newUser(credentials)
-        .then(response => {
+        .then((response) => {
           //console.log(response.data);
           commit('SET_USER_DATA', response.data)
           router.push({
-            name: 'minesweeper'
+            name: 'minesweeper',
           })
         })
-        .catch(error => {
+        .catch((error) => {
           //console.log("There was an error:", error.response);
           Vue.$swal(
             'Oops! ' + error.response.data.error,
@@ -146,13 +146,13 @@ export default new Vuex.Store({
       let router = credentials['router']
       delete credentials['router']
       EventService.login(credentials)
-        .then(response => {
+        .then((response) => {
           commit('SET_USER_DATA', response.data)
           router.push({
-            name: 'minesweeper'
+            name: 'minesweeper',
           })
         })
-        .catch(error => {
+        .catch((error) => {
           Vue.$swal(
             //"Oops! " + error,
             'Oops! ' + error.response.data.error,
@@ -163,26 +163,26 @@ export default new Vuex.Store({
     },
     logout: ({ commit }) => {
       commit('CLEAR_USER_DATA')
-    }
+    },
   },
   getters: {
-    gameId: state => {
+    gameId: (state) => {
       return !!state.game.id
     },
-    gameTime: state => {
+    gameTime: (state) => {
       return state.game.timer
     },
-    gameState: state => {
+    gameState: (state) => {
       return state.game.state
     },
-    cell: state => (row, col) => {
+    cell: (state) => (row, col) => {
       if (state.game.board.cells === null) return ''
       return state.game.board.cells.find(
-        cell => cell.row == row && cell.col == col
+        (cell) => cell.row == row && cell.col == col
       )
     },
-    loggedId: state => {
+    loggedId: (state) => {
       return !!state.user
-    }
-  }
+    },
+  },
 })

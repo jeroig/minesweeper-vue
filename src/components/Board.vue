@@ -35,11 +35,11 @@ export default {
   name: 'board',
 
   computed: {
-    ...mapState({ board: state => state.game.board })
+    ...mapState({ board: (state) => state.game.board }),
   },
 
   components: {
-    Cell
+    Cell,
   },
 
   methods: {
@@ -48,14 +48,14 @@ export default {
     },
 
     getCellComponent(row, col) {
-      return this.$refs.cells.find(cell => cell.id === this.getId(row, col))
+      return this.$refs.cells.find((cell) => cell.id === this.getId(row, col))
     },
 
-    clickAdjacentCell: function(cell) {
+    clickAdjacentCell: function (cell) {
       let cell_component = this.getCellComponent(cell.row, cell.col)
       cell_component.doClick()
-    }
+    },
   },
-  created() {}
+  created() {},
 }
 </script>
