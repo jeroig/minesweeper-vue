@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div v-if="history">
+    <div v-if="!hasHistory">
       <Alert
         ref="alert"
         message="In this section you can see Games played and resume it if not finished yet."
@@ -71,8 +71,8 @@ export default {
     }
   },
   computed: {
-    history() {
-      return !this.games.length > 0
+    hasHistory() {
+      return this.games.length > 0
     },
     paginationLength() {
       return Math.ceil(this.games.length / this.pageSize)
