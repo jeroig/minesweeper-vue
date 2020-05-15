@@ -31,13 +31,18 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-btn
+                id="register"
                 color="success"
                 v-on:click="register"
                 :disabled="!isFormValid"
                 >Register</v-btn
               >
               <v-spacer></v-spacer>
-              <v-btn color="info" v-on:click="login" :disabled="!isFormValid"
+              <v-btn
+                id="login"
+                color="info"
+                v-on:click="login"
+                :disabled="!isFormValid"
                 >Login</v-btn
               >
             </v-card-actions>
