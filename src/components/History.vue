@@ -3,7 +3,9 @@
     <div v-if="!hasHistory">
       <Alert
         ref="alert"
-        message="In this section you can see Games played and resume it if not finished yet."
+        message="In this section you can see Games played and resume it if not finished yet"
+        color="deep-purple lighten-2"
+        icon="mdi-history"
       />
     </div>
     <div v-else>

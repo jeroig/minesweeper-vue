@@ -4,6 +4,8 @@
       <Alert
         ref="alert"
         message="In this section you can see the state of the game and the time played."
+        color="light-green darken-1"
+        icon="mdi-alert-circle-outline"
       />
     </v-row>
 

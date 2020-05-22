@@ -5,10 +5,10 @@
         <v-alert
           border="top"
           colored-border
-          color="light-green darken-1"
+          :color="this.color"
           elevation="5"
           dense
-          icon="mdi-alert-circle-outline"
+          :icon="this.icon"
         >
           {{ this.message }}
         </v-alert>
@@ -23,11 +23,11 @@ export default {
   props: {
     color: {
       type: String,
-      default: 'light-green darken-1',
+      default: 'light-blue darken-3',
     },
     icon: {
       type: String,
-      default: 'mdi-alert-circle-outline',
+      default: 'mdi-gamepad',
     },
     message: {
       type: String,
