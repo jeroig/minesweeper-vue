@@ -49,11 +49,12 @@ describe('Status.vue', () => {
   })
 
   it('Render the Status.vue instance', () => {
-    expect(wrapper.isVueInstance()).toBe(true)
+    //expect(wrapper.isVueInstance()).toBe(true)
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it("Button must be 'Start' If not game playing ", () => {
-    expect(wrapper.contains(Alert)).toBe(true) // Exist "Alert" component
+    expect(wrapper.findComponent(Alert)).toBeTruthy() // Exist "Alert" component
     expect(wrapper.find('v-btn-stub').text()).toBe('Start') // Button Must be value "Start"
   })
 

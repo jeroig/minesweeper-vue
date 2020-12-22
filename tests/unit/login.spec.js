@@ -18,7 +18,8 @@ describe('Login.vue', () => {
   })
 
   it('Render the Login.vue instance', () => {
-    expect(shallowMount(Login).isVueInstance()).toBe(true)
+    //expect(shallowMount(Login).isVueInstance()).toBe(true)
+    expect(shallowMount(Login).vm).toBeTruthy()
   })
 
   it('Show inactive "Register" button', () => {

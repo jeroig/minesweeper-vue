@@ -22,7 +22,8 @@ describe('Alert.vue', () => {
   })
 
   it('Render the Alert.vue instance', () => {
-    expect(wrapper.isVueInstance()).toBe(true)
+    //expect(wrapper.isVueInstance()).toBe(true)
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('Correct default prop values ', () => {
