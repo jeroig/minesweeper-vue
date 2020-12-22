@@ -24,9 +24,7 @@
               >
                 mdi-close-circle
               </v-icon>
-              <v-icon v-else large left color="teal">
-                mdi-play-circle
-              </v-icon>
+              <v-icon v-else large left color="teal"> mdi-play-circle </v-icon>
               <span class="title font-weight-light"> {{ game.date }} </span>
             </v-card-title>
             <v-card-subtitle>
