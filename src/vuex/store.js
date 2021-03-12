@@ -123,8 +123,12 @@ export default new Vuex.Store({
         })
     },
     register: ({ commit }, credentials) => {
+      //console.log('--- Store begin --');
+      //console.log(credentials);
       let router = credentials['router']
       delete credentials['router']
+      //console.log(credentials);
+      //console.log('--- Store end -- ');
       EventService.newUser(credentials)
         .then((response) => {
           //console.log(response.data);

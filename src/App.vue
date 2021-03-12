@@ -15,9 +15,9 @@
       >
       <v-btn @click="toggleTheme" text rounded> Toggle Theme </v-btn>
     </v-app-bar>
-    <v-content>
+    <v-main>
       <router-view></router-view>
-    </v-content>
+    </v-main>
     <v-footer color="green" padless>
       <v-layout justify-center wrap>
         <v-btn
