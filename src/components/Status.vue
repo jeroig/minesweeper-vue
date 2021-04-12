@@ -1,12 +1,14 @@
 <template>
   <v-container>
     <v-row v-if="!getInfo.state">
-      <Alert
-        ref="alert"
-        message="In this section you can see the state of the game and the time played."
-        color="light-green darken-1"
-        icon="mdi-alert-circle-outline"
-      />
+      <v-container>
+        <Alert
+          ref="alert"
+          message="In this section you can see the state of the game and the time played."
+          color="light-green darken-1"
+          icon="mdi-alert-circle-outline"
+        />
+      </v-container>
     </v-row>
 
     <v-row v-else>
@@ -27,6 +29,7 @@
         </v-alert>
       </v-col>
     </v-row>
+
     <v-form v-model="isFormValid">
       <v-row>
         <v-col>

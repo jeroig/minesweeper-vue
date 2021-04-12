@@ -33,8 +33,9 @@ describe('Alert.vue', () => {
     expect(wrapper.props().icon).toBe('mdi-history')
   })
 
-  it('Change props values', () => {
+  it('Change props values', async () => {
     wrapper.setProps({ message: 'bar' })
+    await wrapper.vm.$nextTick()
     expect(wrapper.props().message).toBe('bar')
   })
 })
